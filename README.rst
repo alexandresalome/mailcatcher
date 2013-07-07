@@ -35,12 +35,8 @@ Browse easily your API with the integrated SDK:
     $message = $client->searchOne(array('subject' => 'Welcome'));
 
     // Message API, return a Person object or an array of Person object
-    $message
-        ->getFrom()
-        ->getAllTo()
-        ->getAllCc()
-        ->getAllBcc()
-    ;
+    $message->getFrom();
+    $message->getRecipients();
 
     // Person API
     $person = $message->getFrom();
