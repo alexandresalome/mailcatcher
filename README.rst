@@ -7,8 +7,7 @@ Mailcatcher for PHP
 
 STILL IN DEVELOPMENT
 
-Integrates `Mailcatcher <http://mailcatcher.me>`_ awesomeness in your PHP application!
-
+Integrates `Mailcatcher <http://mailcatcher.me>`_ in your PHP application.
 Mailcatcher is a simple SMTP server with an HTTP API, and this bundle aims to
 integrate it to make it easy to use it with PHP.
 
@@ -23,10 +22,13 @@ Browse easily your API with the integrated SDK:
 
     $client = new Alex\Mailcatcher\Client('http://localhost:1080');
 
-    $client->getMessageCount();
-
+    // Returns all messages
     $messages = $client->search();
 
+    // Count messages
+    $client->getMessageCount();
+
+    // Filter messages
     $messages = $client->search(array(
         'from'        => 'bob@example.org',
         'to'          => 'alice@example.org',
@@ -36,6 +38,7 @@ Browse easily your API with the integrated SDK:
         'format'      => 'html',
     ), $limit = 3);
 
+    // Search one message
     $message = $client->searchOne(array('subject' => 'Welcome'));
 
     // Message API, return a Person object or an array of Person object
