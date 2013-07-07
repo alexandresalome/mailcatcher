@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit
+    backupGlobals               = "false"
+    backupStaticAttributes      = "false"
+    colors                      = "true"
+    convertErrorsToExceptions   = "true"
+    convertNoticesToExceptions  = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation            = "false"
+    stopOnFailure               = "false"
+    syntaxCheck                 = "false"
+    bootstrap                   = "vendor/autoload.php" >
+
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <server name="MAILCATCHER_HTTP" value="http://localhost:1080" />
+        <server name="MAILCATCHER_SMTP" value="smtp://localhost:1025" />
+    </php>
+
+    <filter>
+        <whitelist>
+            <directory>.</directory>
+            <exclude>
+                <directory>Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+</phpunit>

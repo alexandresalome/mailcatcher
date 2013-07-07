@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="behat.mailcatcher.client.class">Alex\Mailcatcher\Client</parameter>
+        <parameter key="behat.mailcatcher.context.initializer.class">Alex\Mailcatcher\Behat\MailcatcherExtension\ContextInitializer</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="behat.mailcatcher.client" class="%behat.mailcatcher.client.class%">
+            <argument>%behat.mailcatcher.client.url%</argument>
+        </service>
+
+        <service id="behat.mailcatcher.context.initializer" class="%behat.mailcatcher.context.initializer.class%">
+            <argument type="service" id="behat.mailcatcher.client" />
+            <argument>%behat.mailcatcher.purge_before_scenario%</argument>
+
+            <tag name="behat.context.initializer" />
+        </service>
+
+    </services>
+</container>

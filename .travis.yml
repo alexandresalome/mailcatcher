@@ -1,0 +1,7 @@
+language: php
+before_script:
+   - composer install
+   - gem install mailcatcher
+   - mailcatcher
+php:
+  - 5.3
