@@ -1,6 +1,10 @@
 Mailcatcher for PHP
 ===================
 
+.. image:: https://travis-ci.org/alexandresalome/mailcatcher.png?branch=master
+   :alt: Build status
+   :target: https://travis-ci.org/alexandresalome/mailcatcher
+
 STILL IN DEVELOPMENT
 
 Integrates `Mailcatcher <http://mailcatcher.me>`_ awesomeness in your PHP application!

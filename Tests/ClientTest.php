@@ -66,7 +66,8 @@ class ClientTest extends AbstractTest
         $this->assertInstanceOf('Alex\Mailcatcher\Message', $message, "message exists");
         $this->assertTrue($message->hasAttachments(), "message has attachments");
 
-        $attachment = $message->getAttachments()[0];
+        $attachments = $message->getAttachments();
+        $attachment = $attachments[0];
 
         $this->assertEquals('foo.txt', $attachment->getFilename(), "attachment filename is correct");
         $this->assertEquals(6, $attachment->getSize(), "attachment size is correct");
