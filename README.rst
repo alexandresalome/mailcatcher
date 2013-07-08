@@ -59,6 +59,8 @@ Browse easily your API with the integrated SDK:
 
 **Attachment API**
 
+.. code-block:: php
+
     // Attachment API
     $attachment->getFilename();
     $attachment->getSize();
