@@ -8,7 +8,7 @@ Mailcatcher for PHP
 STILL IN DEVELOPMENT
 
 Integrates `Mailcatcher <http://mailcatcher.me>`_ in your PHP application.
-Mailcatcher is a simple SMTP server with an HTTP API, and this bundle aims to
+Mailcatcher is a simple SMTP server with an HTTP API, and this library aims to
 integrate it to make it easy to use it with PHP.
 
 Client API
