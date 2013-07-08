@@ -2,12 +2,14 @@
 
 namespace Alex\Mailcatcher;
 
+use Alex\Mailcatcher\Mime\Message as BaseMessage;
+
 /**
  * Message in Mailcatcher
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class Message
+class Message extends BaseMessage
 {
     /**
      * @var Client
@@ -55,19 +57,9 @@ class Message
     protected $createdAt;
 
     /**
-     * @var HeaderBag
-     */
-    protected $headers;
-
-    /**
      * @var array
      */
     protected $formats;
-
-    /**
-     * @var string
-     */
-    protected $content;
 
     /**
      * Constructor
@@ -130,11 +122,7 @@ class Message
         }
 
         if (isset($array['source'])) {
-            $source = $array['source'];
-
-            $parser = new MessageParser();
-
-            list($this->headers, $this->content) = $parser->parse($source);
+            $this->loadSource($array['source']);
         }
 
         return $this;
@@ -142,8 +130,7 @@ class Message
 
     public function match(array $criterias)
     {
-        foreach ($criterias as $criteria) {
-            list($type, $value) = $criteria;
+        foreach ($criterias as $type => $value) {
             switch ($type) {
                 case 'from':
                     if (!$this->getSender()->match($value)) {

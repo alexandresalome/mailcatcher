@@ -1,35 +1,79 @@
 <?php
 
-namespace Alex\Mailcatcher;
+namespace Alex\Mailcatcher\Mime;
 
-class MessageParser
+class Parser
 {
     const TOKEN_HEADER_NAME = '[A-Z][-A-Za-z0-9]*';
 
     private $content;
     private $cursor;
 
-    public function parse($text)
+    public function parseBoundary($content, $boundary)
     {
-        $this->content = $text;
-        $this->cursor = 0;
+        $content = str_replace("\r", '', $content); // acceptable
+
+        $this->content = $content;
+        $this->cursor  = 0;
 
         try {
-            return $this->doParse();
+            return $this->doParseBoundary($boundary);
         } catch (\Exception $e) {
             $text = substr($this->content, $this->cursor, 10);
 
-            throw new \InvalidArgumentException(sprintf('Error while parsing "%s" (cursor: %d, text: "%s").', $e, $this->cursor, $text));
+            throw new \InvalidArgumentException(sprintf('Error while parsing "%s" (cursor: %d, text: "%s").'."\n%s", $e->getMessage(), $this->cursor, $text, $e->getTraceAsString()));
         }
     }
 
-    private function doParse()
+    public function parsePart($text)
+    {
+        $text = str_replace("\r", '', $text); // acceptable
+
+        $this->content = $text;
+        $this->cursor  = 0;
+
+        try {
+            return $this->doParsePart();
+        } catch (\Exception $e) {
+            $text = substr($this->content, $this->cursor, 10);
+
+            throw new \InvalidArgumentException(sprintf('Error while parsing "%s" (cursor: %d, text: "%s").'."\n%s", $e->getMessage(), $this->cursor, $text, $e->getTraceAsString()));
+        }
+    }
+
+    private function doParseBoundary($boundary)
+    {
+        $result = array();
+        $prefix = "--".$boundary;
+
+        $this->consumeRegexp("/\n*/");
+        $this->consume($prefix);
+
+        while ($this->expects("\n")) {
+            $content = $this->consumeTo("\n".$prefix);
+
+            $part = new Part();
+            $part->loadSource($content);
+
+            $result[] = $part;
+
+            $this->consume("\n".$prefix);
+        }
+
+        return $result;
+    }
+
+    private function doParsePart()
     {
         $headerBag = $this->parseHeaderBag();
 
         $this->consume("\n");
 
         $content = $this->consumeAll();
+
+        if ($headerBag->get('Content-Transfer-Encoding') == 'quoted-printable') {
+            $content = quoted_printable_decode(rtrim($content, "\n"));
+        }
 
         return array($headerBag, $content);
     }
@@ -52,12 +96,12 @@ class MessageParser
             $headerName = $vars[1];
             $value      = $this->consumeTo("\n");
             $this->consume("\n");
-            while ($this->expects(" ")) {
+            while ($this->expects(" ") || $this->expects("\t")) {
                 $value .= $this->consumeTo("\n");
                 $this->consume("\n");
             }
 
-            $headerBag->add($headerName, $value);
+            $headerBag->set($headerName, $value);
         } catch (\InvalidArgumentException $e) {
             return false;
         }

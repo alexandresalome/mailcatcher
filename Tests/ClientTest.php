@@ -33,7 +33,7 @@ class ClientTest extends AbstractTest
         $this->createFixtures();
 
         // searchOne
-        $message = $client->searchOne(array(array('subject', '3 =')));
+        $message = $client->searchOne(array('subject' => '3 ='));
         $this->assertInstanceOf('Alex\Mailcatcher\Message', $message);
         $this->assertEquals('3 = 1 x 3 + 0', $message->getSubject());
 
@@ -42,7 +42,7 @@ class ClientTest extends AbstractTest
         $this->assertCount(7, $messages);
 
         // search: contains
-        $messages = $client->search(array(array('contains', '+ 1')));
+        $messages = $client->search(array('contains' => '+ 1'));
         $this->assertCount(3, $messages);
     }
 
@@ -84,14 +84,18 @@ class ClientTest extends AbstractTest
             ->setSubject('Multipart')
             ->setFrom(array('foo@example.org' => 'Foo'))
             ->setTo(array('bar@example.org' => 'Bar'))
-            ->addPart(str_repeat('<p>foo</p> ', 1024), 'text/html')
-            ->addPart(str_repeat('foo ', 1024), 'text/plain')
+            ->addPart($html = str_repeat('<p>foo</p> ', 30), 'text/html')
+            ->addPart($text = str_repeat('foo ', 50), 'text/plain')
         ;
 
         $this->sendMessage($message);
 
         $message = $client->searchOne();
 
-        $this->markTestIncomplete("Feature not implemented");
+        $content = $message->getContent();
+
+        $this->assertTrue($message->isMultipart());
+        $this->assertEquals($html, $message->getPart('text/html')->getContent());
+        $this->assertEquals($text, $message->getPart('text/plain')->getContent());
     }
 }

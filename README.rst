@@ -18,8 +18,6 @@ Browse easily your API with the integrated SDK:
 
 .. code-block:: php
 
-    // Client API
-
     $client = new Alex\Mailcatcher\Client('http://localhost:1080');
 
     // Returns all messages
@@ -41,19 +39,25 @@ Browse easily your API with the integrated SDK:
     // Search one message
     $message = $client->searchOne(array('subject' => 'Welcome'));
 
+**Message API**
+
+.. code-block:: php
+
     // Message API, return a Person object or an array of Person object
-    $message->getFrom();
-    $message->getRecipients();
+    $person  = message->getFrom();
+    $persons = message->getRecipients();
 
     // Person API
     $person = $message->getFrom();
 
-    $person->getName();
-    $person->getMail();
+    $name = person->getName(); // null means not provided
+    $mail = $person->getMail();
 
-    // Client attachments API
-    $client->hasAttachments();
-    $client->getAttachments();
+    // Attachments
+    $message->hasAttachments();
+    $message->getAttachments();
+
+**Attachment API**
 
     // Attachment API
     $attachment->getFilename();
@@ -80,6 +84,8 @@ Available steps
 Configuration
 :::::::::::::
 
+Default configuration:
+
 .. code-block:: yaml
 
     default:
@@ -89,7 +95,6 @@ Configuration
             purge_before_scenario: true
 
 You can also override on execution using environment variable ``MAILCATCHER_URL``.
-
 
 * **Purge before scenario**: Automatically drop all messages in Mailcatcher
 before executing a scenario
