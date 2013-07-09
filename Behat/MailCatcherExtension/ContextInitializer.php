@@ -1,9 +1,9 @@
 <?php
 
-namespace Alex\Mailcatcher\Behat\MailcatcherExtension;
+namespace Alex\MailCatcher\Behat\MailCatcherExtension;
 
-use Alex\Mailcatcher\Behat\MailcatcherContext;
-use Alex\Mailcatcher\Client;
+use Alex\MailCatcher\Behat\MailCatcherContext;
+use Alex\MailCatcher\Client;
 use Behat\Behat\Context\ContextInterface;
 use Behat\Behat\Context\Initializer\InitializerInterface;
 
@@ -20,7 +20,7 @@ class ContextInitializer implements InitializerInterface
 
     public function supports(ContextInterface $context)
     {
-        return $context instanceof MailcatcherContext;
+        return $context instanceof MailCatcherContext;
     }
 
     public function initialize(ContextInterface $context)

@@ -1,8 +1,8 @@
 <?php
 
-namespace Alex\Mailcatcher\Tests\Functional;
+namespace Alex\MailCatcher\Tests;
 
-use Alex\Mailcatcher\Client;
+use Alex\MailCatcher\Client;
 
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {

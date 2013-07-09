@@ -1,6 +1,6 @@
 <?php
 
-namespace Alex\Mailcatcher\Mime;
+namespace Alex\MailCatcher\Mime;
 
 class Part
 {
@@ -65,6 +65,17 @@ class Part
         }
 
         return $this->parts;
+    }
+
+    public function hasPart($type)
+    {
+        try {
+            $this->getPart($type);
+
+            return true;
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
     }
 
     public function getPart($type)

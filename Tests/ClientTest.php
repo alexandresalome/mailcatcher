@@ -1,6 +1,6 @@
 <?php
 
-namespace Alex\Mailcatcher\Tests\Functional;
+namespace Alex\MailCatcher\Tests;
 
 class ClientTest extends AbstractTest
 {
@@ -34,7 +34,7 @@ class ClientTest extends AbstractTest
 
         // searchOne
         $message = $client->searchOne(array('subject' => '3 ='));
-        $this->assertInstanceOf('Alex\Mailcatcher\Message', $message);
+        $this->assertInstanceOf('Alex\MailCatcher\Message', $message);
         $this->assertEquals('3 = 1 x 3 + 0', $message->getSubject());
 
         // search
@@ -63,7 +63,7 @@ class ClientTest extends AbstractTest
 
         $message = $client->searchOne();
 
-        $this->assertInstanceOf('Alex\Mailcatcher\Message', $message, "message exists");
+        $this->assertInstanceOf('Alex\MailCatcher\Message', $message, "message exists");
         $this->assertTrue($message->hasAttachments(), "message has attachments");
 
         $attachments = $message->getAttachments();

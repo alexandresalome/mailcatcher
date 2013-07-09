@@ -1,6 +1,6 @@
 <?php
 
-namespace Alex\Mailcatcher;
+namespace Alex\MailCatcher;
 
 /**
  * Attachment of a message.

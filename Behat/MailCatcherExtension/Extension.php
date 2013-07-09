@@ -1,8 +1,6 @@
 <?php
 
-namespace Alex\Mailcatcher\Behat\MailcatcherExtension;
-
-\Symfony\Component\Debug\Debug::enable();
+namespace Alex\MailCatcher\Behat\MailCatcherExtension;
 
 use Symfony\Component\Config\FileLocator,
     Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition,
@@ -12,7 +10,7 @@ use Symfony\Component\Config\FileLocator,
 use Behat\Behat\Extension\ExtensionInterface;
 
 /**
- * Mink extension for Mailcatcher manipulation.
+ * Mink extension for MailCatcher manipulation.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */

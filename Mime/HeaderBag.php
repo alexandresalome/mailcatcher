@@ -1,6 +1,6 @@
 <?php
 
-namespace Alex\Mailcatcher\Mime;
+namespace Alex\MailCatcher\Mime;
 
 /**
  * Ported from Symfony\Component\HttpFoundation\HeaderBag

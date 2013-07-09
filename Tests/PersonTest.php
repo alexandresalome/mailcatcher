@@ -1,8 +1,8 @@
 <?php
 
-namespace Alex\Mailcatcher\Tests;
+namespace Alex\MailCatcher\Tests;
 
-use Alex\Mailcatcher\Person;
+use Alex\MailCatcher\Person;
 
 class PersonTest extends \PHPUnit_Framework_TestCase
 {

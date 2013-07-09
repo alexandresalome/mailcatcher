@@ -1,11 +1,11 @@
 <?php
 
-namespace Alex\Mailcatcher;
+namespace Alex\MailCatcher;
 
-use Alex\Mailcatcher\Mime\Message as BaseMessage;
+use Alex\MailCatcher\Mime\Message as BaseMessage;
 
 /**
- * Message in Mailcatcher
+ * Message in MailCatcher
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */

@@ -1,8 +1,9 @@
 <?php
 
-namespace Alex\Mailcatcher\Tests;
+namespace Alex\MailCatcher\Tests;
+use Alex\MailCatcher\Mime\Parser;
 
-class MessageParserTest
+class MessageParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimple()
     {
@@ -13,11 +14,12 @@ Bar: baz
 Hello world
 EOF;
 
-        list($headers, $content) = $parser->parse($message);
+        $parser = new Parser();
+        list($headers, $content) = $parser->parsePart($message);
 
         $this->assertEquals('Hello world', $content, 'content is "Hello world"');
-        $this->assertEquals('bar', $header->get('Foo'));
-        $this->assertEquals('baz', $header->get('Bar'));
+        $this->assertEquals('bar', $headers->get('Foo'));
+        $this->assertEquals('baz', $headers->get('Bar'));
     }
 
     public function testHeaderMultiline()
@@ -32,10 +34,11 @@ Bar: foo
 Hello world
 EOF;
 
-        list($headers, $content) = $parser->parse($message);
+        $parser = new Parser();
+        list($headers, $content) = $parser->parsePart($message);
 
         $this->assertEquals('Hello world', $content, 'content is "Hello world"');
-        $this->assertEquals('barbaz', $header->get('Foo'));
-        $this->assertEquals('foobarbaz', $header->get('Bar'));
+        $this->assertEquals('barbaz', $headers->get('Foo'));
+        $this->assertEquals('foobarbaz', $headers->get('Bar'));
     }
 }

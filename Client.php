@@ -1,9 +1,9 @@
 <?php
 
-namespace Alex\Mailcatcher;
+namespace Alex\MailCatcher;
 
 /**
- * Client to manipulate a Mailcatcher server.
+ * Client to manipulate a MailCatcher server.
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
@@ -43,6 +43,14 @@ class Client
     }
 
     /**
+     * @return string URL of server used by the client
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
      * Returns the number of messages on the server.
      *
      * @return int
@@ -68,7 +76,6 @@ class Client
         if (count($results) !== 1) {
             return null;
         }
-
 
         return $results[0];
     }
@@ -109,7 +116,7 @@ class Client
     }
 
     /**
-     * Request the API of Mailcatcher.
+     * Request the API of MailCatcher.
      *
      * @param string $method HTTP method to use (POST, PUT, GET, DELETE)
      * @param string $path   relative path from '/messages' (ex: null, '132.json')
@@ -129,7 +136,7 @@ class Client
     }
 
     /**
-     * Raw method to request the API of Mailcatcher.
+     * Raw method to request the API of MailCatcher.
      *
      * @param string $method     HTTP method
      * @param string $url        absolute URL on server (`/messages/132.json`)
