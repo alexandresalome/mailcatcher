@@ -4,9 +4,9 @@
     "type": "library",
     "description": "A library to access MailCatcher",
     "autoload": {
-        "psr-0": { "Alex\\Mailcatcher": "" }
+        "psr-0": { "Alex\\MailCatcher": "" }
     },
-    "target-dir": "Alex\\MailCatcher",
+    "target-dir": "Alex/MailCatcher",
     "require": {
         "php":            ">=5.3.3"
     },
