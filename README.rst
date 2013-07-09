@@ -41,31 +41,31 @@ Once it's opened, you can make **assertions** on it and **click** in it.
 
 Deletes all messages on the server
 
-> When I purge mails
+    When I purge mails
 
 **Mail opening**
 
-> When I open mail from "**foo@example.org**"
->
-> When I open mail containing "**a message**"
->
-> When I open mail to "**me@example.org**"
->
-> When I open mail with subject "**Welcome, mister Bond!**"
+     When I open mail from "**foo@example.org**"
+
+     When I open mail containing "**a message**"
+
+     When I open mail to "**me@example.org**"
+
+     When I open mail with subject "**Welcome, mister Bond!**"
 
 **Assertion**
 
 Verify nomber of messages sent to the server:
 
-> Then **1** mail should be sent
->
-> Then **13** mails should be sent
+    Then **1** mail should be sent
+
+    Then **13** mails should be sent
 
 Verify text presence in message:
 
-> Then I should see "**something**" in mail
->
-> Then I should see "**something else**" in mail
+     Then I should see "**something**" in mail
+
+     Then I should see "**something else**" in mail
 
 Client API
 ----------
