@@ -185,6 +185,18 @@ class Client
 
         curl_setopt_array($curl, $options);
 
-        return curl_exec($curl);
+        $result = curl_exec($curl);
+
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        if ($statusCode === 200 || $statusCode === 204 || ($statusCode >= 300 && $statusCode <= 303)) {
+            return $result;
+        }
+
+        if (0 === $statusCode) {
+            throw new \RuntimeException(sprintf('Unable to connect to "%s".', $this->url));
+        }
+
+        throw new \RuntimeException(sprintf('Unexpected status code. Expected valid code, got %s.', $statusCode));
     }
 }
