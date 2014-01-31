@@ -109,7 +109,7 @@ class Part
             return;
         }
 
-        if (!preg_match('#^multipart/(alternative|mixed);\s*boundary="?(.*)"?$#', $contentType, $vars)) {
+        if (!preg_match('#^multipart/(alternative|mixed);\s*boundary="?([^"]*)"?$#', $contentType, $vars)) {
             throw new \InvalidArgumentException(sprintf('Unable to parse multipart header: "%s".', $contentType));
         }
 
