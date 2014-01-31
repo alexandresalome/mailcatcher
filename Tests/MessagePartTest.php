@@ -50,7 +50,16 @@ EOF;
 
         $part->loadSource($message);
 
-        $this->assertContains('this is *some bold text*', $part->getPart('text/plain'), 'Can we extract the plain text section?');
+        $this->assertContains(
+            'this is *some bold text*',
+            $part->getPart('text/plain')->getContent(),
+            'Can we extract the plain text section?'
+        );
+        $this->assertContains(
+            'this is <b>some bold text</b>',
+            $part->getPart('text/html')->getContent(),
+            'Can we get the html content?'
+        );
     }
 
 }
