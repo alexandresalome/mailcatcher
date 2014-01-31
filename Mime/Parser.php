@@ -54,8 +54,11 @@ class Parser
 
             $part = new Part();
             $part->loadSource($content);
-
-            $result[] = $part;
+            if ($part->isMultipart()) {
+                $result += $part->getParts();
+            } else {
+                $result[] = $part;
+            }
 
             $this->consume("\n".$prefix);
         }
