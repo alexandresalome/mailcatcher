@@ -47,6 +47,7 @@ class Parser
         $prefix = "--".$boundary;
 
         $this->consumeRegexp("/\n*/");
+        $this->consumeTo($prefix);
         $this->consume($prefix);
 
         while ($this->expects("\n")) {
