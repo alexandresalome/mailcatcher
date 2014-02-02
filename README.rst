@@ -99,14 +99,19 @@ Browse easily your API with the integrated SDK:
 
 .. code-block:: php
 
+    // Message API, get the content of a message
+    $subject = $message->getSubject();
+    $plainTextBody = $message->getPart('text/plain')->getContent();
+    $htmlBody = $message->getPart('text/html')->getContent();
+
     // Message API, return a Person object or an array of Person object
-    $person  = message->getFrom();
-    $persons = message->getRecipients();
+    $person  = $message->getFrom();
+    $persons = $message->getRecipients();
 
     // Person API
     $person = $message->getFrom();
 
-    $name = person->getName(); // null means not provided
+    $name = $person->getName(); // null means not provided
     $mail = $person->getMail();
 
     // Attachments
