@@ -118,6 +118,9 @@ Browse easily your API with the integrated SDK:
     $message->hasAttachments();
     $message->getAttachments();
 
+    // Delete
+    $message->delete();
+
 **Attachment API**
 
 .. code-block:: php

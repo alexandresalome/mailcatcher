@@ -350,4 +350,9 @@ class Message extends BaseMessage
     {
         $this->loadFromArray($this->client->request('GET', $this->id.'.json'));
     }
+
+    public function delete()
+    {
+        return $this->client->request('DELETE', $this->id);
+    }
 }
