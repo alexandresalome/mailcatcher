@@ -5,7 +5,6 @@ namespace Alex\MailCatcher\Behat;
 use Alex\MailCatcher\Client;
 use Alex\MailCatcher\Message;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\Step\Then;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -13,7 +12,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class MailCatcherContext extends BehatContext
+class MailCatcherContext extends Context
 {
     /**
      * @var Client|null
@@ -121,44 +120,6 @@ class MailCatcherContext extends BehatContext
         if (false === strpos($content, $text)) {
             throw new \InvalidArgumentException(sprintf("Unable to find text \"%s\" in current message:\n%s", $text, $message->getContent()));
         }
-    }
-
-    /**
-     * @Then /^I click (?:on )?"([^"]+)" in mail$/
-     */
-    public function clickInMail($text)
-    {
-        $message = $this->getCurrentMessage();
-
-        if ($message->hasPart('text/html')) {
-            $links = $this->getCrawler($message)->filter('a')->each(function ($link) {
-                return array(
-                    'href' => $link->attr('href'),
-                    'text' => $link->text()
-                );
-            });
-        } else {
-            throw new \RuntimeException(sprintf('Unable to click in mail'));
-        }
-
-        $href = null;
-        foreach ($links as $link) {
-            if (false !== strpos($link['text'], $text)) {
-                $href = $link['href'];
-
-                break;
-            }
-        }
-
-        if (null === $href) {
-            throw new \RuntimeException(sprintf('Unable to find link "%s" in those links: "%s".', $text, implode('", "', array_map(function ($link) {
-                return $link['text'];
-            }, $links))));
-        }
-
-        return array(
-            new Then('I am on "'.$href.'"')
-        );
     }
 
     /**
