@@ -4,8 +4,8 @@ namespace Alex\MailCatcher\Behat\MailCatcherExtension;
 
 use Alex\MailCatcher\Behat\MailCatcherContext;
 use Alex\MailCatcher\Client;
-use Behat\Behat\Context\ContextInterface;
-use Behat\Behat\Context\Initializer\InitializerInterface;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Context\Initializer\ContextInitializer as InitializerInterface;
 
 class ContextInitializer implements InitializerInterface
 {
@@ -23,8 +23,12 @@ class ContextInitializer implements InitializerInterface
         return $context instanceof MailCatcherContext;
     }
 
-    public function initialize(ContextInterface $context)
+    public function initializeContext(Context $context)
     {
+        if (!$context instanceof MailCatcherContext) {
+            return;
+        }
+
         $context->setConfiguration($this->client, $this->purgeBeforeScenario);
     }
 }
