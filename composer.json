@@ -13,6 +13,6 @@
 
     "require-dev": {
         "swiftmailer/swiftmailer": "~5.0",
-        "behat/behat": "~2.4"
+        "behat/behat": "~3.0.4"
     }
 }
