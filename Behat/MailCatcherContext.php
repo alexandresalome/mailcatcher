@@ -4,7 +4,7 @@ namespace Alex\MailCatcher\Behat;
 
 use Alex\MailCatcher\Client;
 use Alex\MailCatcher\Message;
-use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Step\Then;
 use Symfony\Component\DomCrawler\Crawler;
 
