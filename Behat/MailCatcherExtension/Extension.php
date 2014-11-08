@@ -75,4 +75,11 @@ class Extension implements ExtensionInterface
     public function initialize(ExtensionManager $extensionManager)
     {
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+    }
 }
