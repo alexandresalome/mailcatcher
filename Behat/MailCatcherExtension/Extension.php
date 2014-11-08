@@ -8,6 +8,7 @@ use Symfony\Component\Config\FileLocator,
     Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
 
 /**
  * Mink extension for MailCatcher manipulation.
@@ -31,7 +32,7 @@ class Extension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfig(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder)
     {
         $builder
             ->children()
@@ -58,5 +59,20 @@ class Extension implements ExtensionInterface
         }
 
         return $config;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getConfigKey()
+    {
+        return 'mailcatcher';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function initialize(ExtensionManager $extensionManager)
+    {
     }
 }
