@@ -12,7 +12,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class MailCatcherContext extends Context
+class MailCatcherContext implements Context
 {
     /**
      * @var Client|null
