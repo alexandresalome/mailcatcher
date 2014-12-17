@@ -29,6 +29,23 @@ First, configure in your ``behat.yml``:
                 url: http://localhost:1080
                 purge_before_scenario: true
 
+Then, add the **MailCatcherContext** context in your **FeatureContext** file:
+
+.. code-block:: php
+
+   <?php
+
+   use Alex\MailCatcher\Behat\MailCatcherContext;
+   use Behat\Behat\Context\BehatContext;
+
+   class FeatureContext extends BehatContext
+   {
+      public function __construct(array $parameters)
+      {
+         $this->useContext('mailcatcher', new MailCatcherContext());
+      }
+   }
+
 Available steps
 :::::::::::::::
 
