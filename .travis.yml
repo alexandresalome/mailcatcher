@@ -2,6 +2,7 @@ language: php
 before_script:
    - composer install
    - gem install mailcatcher
-   - mailcatcher
+   # Temporary workaround for https://github.com/sj26/mailcatcher/issues/182
+   - mailcatcher -f > out.txt&
 php:
   - 5.3
