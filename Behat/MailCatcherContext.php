@@ -46,7 +46,7 @@ class MailCatcherContext implements Context
      *
      * @return client
      *
-     * @throws RuntimeException client if missing from context
+     * @throws \RuntimeException client if missing from context
      */
     public function getClient()
     {

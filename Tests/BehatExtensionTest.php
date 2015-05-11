@@ -2,9 +2,11 @@
 
 namespace Alex\MailCatcher\Tests;
 
+use Behat\Behat\ApplicationFactory;
 use Behat\Behat\Console\BehatApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -64,23 +66,28 @@ class BehatExtensionTest extends AbstractTest
 
         $config = json_encode(array(
             'default' => array(
-                'context' => array(
-                    'class' => 'Alex\MailCatcher\Test\TestContext',
-                ),
-                'extensions' => array(
-                    'Alex\MailCatcher\Behat\MailCatcherExtension\Extension' => array(
-                        'url' => $client->getUrl(),
-                        'purge_before_scenario' => false
+                'suites' => array(
+                    'default' => array(
+                        'path' => sys_get_temp_dir(),
+                        'contexts' => array(
+                            '-' => 'Alex\MailCatcher\Test\TestContext',
+                        ),
                     ),
                 ),
-            ),
+                'extensions' => array(
+                        'Alex\MailCatcher\Behat\MailCatcherExtension\Extension' => array(
+                            'url' => $client->getUrl(),
+                            'purge_before_scenario' => false
+                    ),
+                )
+            )
         ));
 
         try {
-            $behat = new BehatApplication('DEV');
+            $behat = (new ApplicationFactory())->createApplication();
             $behat->setAutoExit(false);
 
-            $input = new ArgvInput(array('behat', '--format', 'progress', '--config', $configFile, '--out', $outputFile, $file));
+            $input = new ArgvInput(array('behat', '--format', 'progress', '--config', $configFile, '--out', $outputFile));
             $output = new NullOutput();
 
             file_put_contents($file, $content);

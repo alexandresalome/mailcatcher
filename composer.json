@@ -8,12 +8,13 @@
     },
     "target-dir": "Alex/MailCatcher",
     "require": {
-        "php":            ">=5.3.3"
+        "php":                     ">=5.3.3",
+        "symfony/dom-crawler":     "~2.6"
     },
 
     "require-dev": {
         "swiftmailer/swiftmailer": "~5.0",
-        "behat/behat": "~3.0.4",
-        "phpunit/phpunit": "~4.6"
+        "behat/behat":             "~3.0",
+        "phpunit/phpunit":         "~4.6"
     }
 }
