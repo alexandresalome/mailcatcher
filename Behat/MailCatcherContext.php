@@ -89,7 +89,7 @@ class MailCatcherContext implements Context
         } elseif ($type === 'containing') {
             $type = 'contains';
         }
-        $criterias = [$type => $value];
+        $criterias = array($type => $value);
 
         $message = $this->getClient()->searchOne($criterias);
 
