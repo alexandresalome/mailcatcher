@@ -3,11 +3,7 @@
 namespace Alex\MailCatcher\Tests;
 
 use Behat\Behat\ApplicationFactory;
-use Behat\Behat\Console\BehatApplication;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 
 class BehatExtensionTest extends AbstractTest
@@ -30,7 +26,7 @@ class BehatExtensionTest extends AbstractTest
             ->setBody('This is a message from world to php')
         );
 
-        $behat = $this->runBehat(array(
+        $this->runBehat(array(
 
             "Then 2 mails should be sent",
             "Then 2 mail should be sent",
@@ -84,7 +80,8 @@ class BehatExtensionTest extends AbstractTest
         ));
 
         try {
-            $behat = (new ApplicationFactory())->createApplication();
+            $application = new ApplicationFactory();
+            $behat = $application->createApplication();
             $behat->setAutoExit(false);
 
             $input = new ArgvInput(array('behat', '--format', 'progress', '--config', $configFile, '--out', $outputFile));

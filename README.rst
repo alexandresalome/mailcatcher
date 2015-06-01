@@ -55,7 +55,7 @@ Deletes all messages on the server
 
 **Assertion**
 
-Verify nomber of messages sent to the server:
+Verify number of messages sent to the server:
 
     Then **1** mail should be sent
 

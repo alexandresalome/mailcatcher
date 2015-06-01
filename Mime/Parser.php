@@ -9,6 +9,12 @@ class Parser
     private $content;
     private $cursor;
 
+    /**
+     * @param $content
+     * @param $boundary
+     *
+     * @return array|null
+     */
     public function parseBoundary($content, $boundary)
     {
         $content = str_replace("\r", '', $content); // acceptable
@@ -25,6 +31,11 @@ class Parser
         }
     }
 
+    /**
+     * @param $text
+     *
+     * @return array
+     */
     public function parsePart($text)
     {
         $text = str_replace("\r", '', $text); // acceptable
@@ -41,6 +52,11 @@ class Parser
         }
     }
 
+    /**
+     * @param $boundary
+     *
+     * @return array|null
+     */
     private function doParseBoundary($boundary)
     {
         $result = array();
@@ -67,6 +83,9 @@ class Parser
         return $result;
     }
 
+    /**
+     * @return array
+     */
     private function doParsePart()
     {
         $headerBag = $this->parseHeaderBag();
@@ -82,6 +101,9 @@ class Parser
         return array($headerBag, $content);
     }
 
+    /**
+     * @return HeaderBag
+     */
     private function parseHeaderBag()
     {
         $headerBag = new HeaderBag();
@@ -93,6 +115,11 @@ class Parser
         return $headerBag;
     }
 
+    /**
+     * @param HeaderBag $headerBag
+     *
+     * @return bool
+     */
     private function parseHeader(HeaderBag $headerBag)
     {
         try {
@@ -113,11 +140,17 @@ class Parser
         return true;
     }
 
+    /**
+     * @return bool
+     */
     protected function isFinished()
     {
         return $this->cursor === $this->length;
     }
 
+    /**
+     * @return string
+     */
     protected function consumeAll()
     {
         $rest = substr($this->content, $this->cursor);
@@ -126,6 +159,11 @@ class Parser
         return $rest;
     }
 
+    /**
+     * @param $expected
+     *
+     * @return bool
+     */
     protected function expects($expected)
     {
         $length = strlen($expected);
@@ -139,6 +177,11 @@ class Parser
         return true;
     }
 
+    /**
+     * @param $regexp
+     *
+     * @return mixed
+     */
     protected function consumeRegexp($regexp)
     {
         if (!preg_match($regexp.'A', $this->content, $vars, null, $this->cursor)) {
@@ -150,6 +193,11 @@ class Parser
         return $vars;
     }
 
+    /**
+     * @param $text
+     *
+     * @return string
+     */
     protected function consumeTo($text)
     {
         $pos = strpos($this->content, $text, $this->cursor);
@@ -164,6 +212,11 @@ class Parser
         return $result;
     }
 
+    /**
+     * @param $expected
+     *
+     * @return mixed
+     */
     protected function consume($expected)
     {
         $length = strlen($expected);
@@ -176,6 +229,9 @@ class Parser
         return $expected;
     }
 
+    /**
+     * @return mixed
+     */
     protected function consumeNewLine()
     {
         return $this->consume("\n");

@@ -65,7 +65,7 @@ class Client
      *
      * See method `Message::match` method for more informations on criterias.
      *
-     * @param string
+     * @param array $criterias
      *
      * @return Message|null
      */
@@ -143,13 +143,14 @@ class Client
      * @param array  $parameters parameters to POST
      *
      * @return string response body
+     * @throws \RuntimeException
      */
     public function requestRaw($method, $url, $parameters = array())
     {
         $url = $this->url.$url;
 
         if (false === $curl = curl_init()) {
-            throw new ClientException('Unable to create a new cURL handle');
+            throw new \RuntimeException('Unable to create a new cURL handle');
         }
 
         $options = array(

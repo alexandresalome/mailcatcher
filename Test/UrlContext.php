@@ -1,7 +1,7 @@
 <?php
 
 namespace Alex\MailCatcher\Test;
-use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Context;
 
 /**
  * Context Behat class, used for testing.
@@ -10,7 +10,7 @@ use Behat\Behat\Context\BehatContext;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class UrlContext extends BehatContext
+class UrlContext implements Context
 {
     /**
      * Last called URLs.

@@ -37,11 +37,17 @@ class Extension implements ExtensionInterface
         $container->setParameter('behat.mailcatcher.purge_before_scenario', $config['purge_before_scenario']);
     }
 
+    /**
+     * @param ContainerBuilder $container
+     */
     private function loadMailcatcher(ContainerBuilder $container)
     {
         $container->setDefinition(self::MAILCATCHER_ID, new Definition('Alex\MailCatcher\Client'));
     }
 
+    /**
+     * @param ContainerBuilder $container
+     */
     private function loadContextInitializer(ContainerBuilder $container)
     {
         $definition = new Definition('Alex\MailCatcher\Behat\MailCatcherExtension\ContextInitializer', array(
@@ -72,6 +78,9 @@ class Extension implements ExtensionInterface
         return array();
     }
 
+    /**
+     * @return array
+     */
     protected function loadEnvironmentConfiguration()
     {
         $config = array();

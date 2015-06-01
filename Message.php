@@ -2,6 +2,7 @@
 
 namespace Alex\MailCatcher;
 
+use Alex\MailCatcher\Mime\HeaderBag;
 use Alex\MailCatcher\Mime\Message as BaseMessage;
 
 /**
@@ -113,8 +114,6 @@ class Message extends BaseMessage
         }
 
         if (isset($array['attachments'])) {
-            $attachments = $array['attachments'];
-
             $client = $this->client;
             $this->attachments = array_map(function ($array) use ($client) {
                 return new Attachment($client, $array);
@@ -128,6 +127,11 @@ class Message extends BaseMessage
         return $this;
     }
 
+    /**
+     * @param array $criterias
+     *
+     * @return bool
+     */
     public function match(array $criterias)
     {
         foreach ($criterias as $type => $value) {
@@ -195,7 +199,9 @@ class Message extends BaseMessage
     }
 
     /**
-     * @return boolean
+     * @param $format
+     *
+     * @return bool
      */
     public function hasFormat($format)
     {
@@ -335,7 +341,7 @@ class Message extends BaseMessage
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -351,6 +357,9 @@ class Message extends BaseMessage
         $this->loadFromArray($this->client->request('GET', $this->id.'.json'));
     }
 
+    /**
+     * @return string
+     */
     public function delete()
     {
         return $this->client->request('DELETE', $this->id);
