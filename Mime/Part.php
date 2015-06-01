@@ -18,6 +18,8 @@ class Part
 
     /**
      * Load source part.
+     *
+     * @param $source
      */
     public function loadSource($source)
     {
@@ -54,6 +56,9 @@ class Part
         return false !== $this->parts;
     }
 
+    /**
+     * @return null
+     */
     public function getParts()
     {
         if (null === $this->parts) {
@@ -67,6 +72,11 @@ class Part
         return $this->parts;
     }
 
+    /**
+     * @param $type
+     *
+     * @return bool
+     */
     public function hasPart($type)
     {
         try {
@@ -78,6 +88,11 @@ class Part
         }
     }
 
+    /**
+     * @param $type
+     *
+     * @return mixed
+     */
     public function getPart($type)
     {
         $parts = $this->getParts();
@@ -93,6 +108,9 @@ class Part
         }, $parts))));
     }
 
+    /**
+     *
+     */
     private function loadParts()
     {
         $content = $this->getContent();

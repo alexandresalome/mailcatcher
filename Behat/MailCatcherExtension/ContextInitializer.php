@@ -12,17 +12,29 @@ class ContextInitializer implements InitializerInterface
     protected $client;
     protected $purgeBeforeScenario;
 
+    /**
+     * @param Client $client
+     * @param bool   $purgeBeforeScenario
+     */
     public function __construct(Client $client, $purgeBeforeScenario = true)
     {
         $this->client = $client;
         $this->purgeBeforeScenario = $purgeBeforeScenario;
     }
 
-    public function supports(ContextInterface $context)
+    /**
+     * @param Context $context
+     *
+     * @return bool
+     */
+    public function supports(Context $context)
     {
         return $context instanceof MailCatcherContext;
     }
 
+    /**
+     * @param Context $context
+     */
     public function initializeContext(Context $context)
     {
         if (!$context instanceof MailCatcherContext) {

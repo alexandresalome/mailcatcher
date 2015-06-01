@@ -89,7 +89,7 @@ class MailCatcherContext implements Context
         } elseif ($type === 'containing') {
             $type = 'contains';
         }
-        $criterias = array($type => $value);
+        $criterias = [$type => $value];
 
         $message = $this->getClient()->searchOne($criterias);
 
@@ -135,6 +135,9 @@ class MailCatcherContext implements Context
         }
     }
 
+    /**
+     * @return Message|null
+     */
     private function getCurrentMessage()
     {
         if (null === $this->currentMessage) {
@@ -144,6 +147,11 @@ class MailCatcherContext implements Context
         return $this->currentMessage;
     }
 
+    /**
+     * @param Message $message
+     *
+     * @return Crawler
+     */
     private function getCrawler(Message $message)
     {
         if (!class_exists('Symfony\Component\DomCrawler\Crawler')) {
