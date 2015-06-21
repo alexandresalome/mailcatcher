@@ -13,12 +13,6 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  */
 class TestContext implements Context
 {
-    public function __construct(array $parameters)
-    {
-        $this->useContext('url', new UrlContext());
-        $this->useContext('mailcatcher', new MailCatcherContext());
-    }
-
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
     {

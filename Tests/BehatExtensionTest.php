@@ -47,33 +47,41 @@ class BehatExtensionTest extends AbstractTest
             'When I open mail with subject "hello mailcatcher"',
             'Then I should see "from world to mailcatcher" in mail',
         ));
+
+        $this->runBehat(array(
+            "Then 0 mails should be sent"
+        ), true);
+
     }
 
-    private function runBehat($steps)
+    private function runBehat($steps, $purge_before_scenario = false)
     {
         $client = $this->getClient();
 
         $file    = tempnam(sys_get_temp_dir(), 'mailcatcher_');
         unlink($file);
-        $configFile = $file.'.config';
+        $configFile = $file.'.yml';
         $outputFile = $file.'.output';
         $file = $file.'.feature';
-        $content = "Feature: Test\n\n    Scenario: Test\n    ".implode("\n    ", $steps)."\n";
+        $content = "Feature: Test\n\n  Scenario: Test\n    ".implode("\n    ", $steps)."\n";
 
         $config = json_encode(array(
             'default' => array(
                 'suites' => array(
                     'default' => array(
-                        'path' => sys_get_temp_dir(),
+                        'paths' => array(sys_get_temp_dir()),
                         'contexts' => array(
-                            '-' => 'Alex\MailCatcher\Test\TestContext',
+                            'Behat\MinkExtension\Context\MinkContext',
+                            'Alex\MailCatcher\Behat\MailCatcherContext',
+                            'Alex\MailCatcher\Test\UrlContext',
+                            'Alex\MailCatcher\Test\TestContext',
                         ),
                     ),
                 ),
                 'extensions' => array(
                         'Alex\MailCatcher\Behat\MailCatcherExtension\Extension' => array(
                             'url' => $client->getUrl(),
-                            'purge_before_scenario' => false
+                            'purge_before_scenario' => $purge_before_scenario
                     ),
                 )
             )
@@ -84,7 +92,7 @@ class BehatExtensionTest extends AbstractTest
             $behat = $application->createApplication();
             $behat->setAutoExit(false);
 
-            $input = new ArgvInput(array('behat', '--format', 'progress', '--config', $configFile, '--out', $outputFile));
+            $input = new ArgvInput(array('behat', '--format', 'progress', '--config', $configFile, '--out', $outputFile, $file));
             $output = new NullOutput();
 
             file_put_contents($file, $content);
@@ -97,6 +105,7 @@ class BehatExtensionTest extends AbstractTest
             unlink($file);
             unlink($file.'.config');
             $this->fail($exception->getMessage());
+            $result = null;
         }
 
         if ($result !== 0) {

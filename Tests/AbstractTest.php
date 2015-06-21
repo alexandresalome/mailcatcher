@@ -15,7 +15,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
         return new Client($_SERVER['MAILCATCHER_HTTP']);
     }
 
-    public function sendMessage(\Swift_Message $message)
+    public function sendMessage(\Swift_Mime_MimePart $message)
     {
         if (!isset($_SERVER['MAILCATCHER_SMTP'])) {
             $this->markTestSkipped('mailcatcher SMTP missing');
