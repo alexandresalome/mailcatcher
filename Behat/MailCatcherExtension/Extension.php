@@ -51,7 +51,8 @@ class Extension implements ExtensionInterface
     private function loadContextInitializer(ContainerBuilder $container)
     {
         $definition = new Definition('Alex\MailCatcher\Behat\MailCatcherExtension\ContextInitializer', array(
-            new Reference(self::MAILCATCHER_ID)
+            new Reference(self::MAILCATCHER_ID),
+            '%behat.mailcatcher.purge_before_scenario%'
         ));
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
         $container->setDefinition('mailcatcher.context_initializer', $definition);
