@@ -92,8 +92,6 @@ class ClientTest extends AbstractTest
 
         $message = $client->searchOne();
 
-        $content = $message->getContent();
-
         $this->assertTrue($message->isMultipart());
         $this->assertEquals($html, $message->getPart('text/html')->getContent());
         $this->assertEquals($text, $message->getPart('text/plain')->getContent());

@@ -7,7 +7,11 @@ use Symfony\Component\Config\FileLocator,
     Symfony\Component\DependencyInjection\ContainerBuilder,
     Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-use Behat\Behat\Extension\ExtensionInterface;
+use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+use Behat\Behat\Context\ServiceContainer\ContextExtension;
 
 /**
  * Mink extension for MailCatcher manipulation.
@@ -16,22 +20,48 @@ use Behat\Behat\Extension\ExtensionInterface;
  */
 class Extension implements ExtensionInterface
 {
+    const MAILCATCHER_ID = 'mailcatcher';
+
     /**
      * {@inheritdoc}
      */
-    public function load(array $config, ContainerBuilder $container)
+    public function load(ContainerBuilder $container, array $config)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/services'));
         $loader->load('core.xml');
+
+        $this->loadMailcatcher($container);
+        $this->loadContextInitializer($container);
 
         $container->setParameter('behat.mailcatcher.client.url', $config['url']);
         $container->setParameter('behat.mailcatcher.purge_before_scenario', $config['purge_before_scenario']);
     }
 
     /**
+     * @param ContainerBuilder $container
+     */
+    private function loadMailcatcher(ContainerBuilder $container)
+    {
+        $container->setDefinition(self::MAILCATCHER_ID, new Definition('Alex\MailCatcher\Client'));
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function loadContextInitializer(ContainerBuilder $container)
+    {
+        $definition = new Definition('Alex\MailCatcher\Behat\MailCatcherExtension\ContextInitializer', array(
+            new Reference(self::MAILCATCHER_ID),
+            '%behat.mailcatcher.purge_before_scenario%'
+        ));
+        $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
+        $container->setDefinition('mailcatcher.context_initializer', $definition);
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function getConfig(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder)
     {
         $builder
             ->children()
@@ -49,6 +79,9 @@ class Extension implements ExtensionInterface
         return array();
     }
 
+    /**
+     * @return array
+     */
     protected function loadEnvironmentConfiguration()
     {
         $config = array();
@@ -58,5 +91,27 @@ class Extension implements ExtensionInterface
         }
 
         return $config;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getConfigKey()
+    {
+        return 'mailcatcher';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function initialize(ExtensionManager $extensionManager)
+    {
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
     }
 }
