@@ -138,7 +138,7 @@ class MailCatcherContext implements Context
     /**
      * @return Message|null
      */
-    private function getCurrentMessage()
+    public function getCurrentMessage()
     {
         if (null === $this->currentMessage) {
             throw new \RuntimeException('No message selected');
