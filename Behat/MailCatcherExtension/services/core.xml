@@ -21,5 +21,7 @@
             <tag name="behat.context.initializer" />
         </service>
 
+        <service id="mailcatcher" alias="behat.mailcatcher.client" />
+
     </services>
 </container>
