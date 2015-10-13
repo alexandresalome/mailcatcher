@@ -30,19 +30,10 @@ class Extension implements ExtensionInterface
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/services'));
         $loader->load('core.xml');
 
-        $this->loadMailcatcher($container);
         $this->loadContextInitializer($container);
 
         $container->setParameter('behat.mailcatcher.client.url', $config['url']);
         $container->setParameter('behat.mailcatcher.purge_before_scenario', $config['purge_before_scenario']);
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    private function loadMailcatcher(ContainerBuilder $container)
-    {
-        $container->setDefinition(self::MAILCATCHER_ID, new Definition('Alex\MailCatcher\Client'));
     }
 
     /**
