@@ -84,6 +84,24 @@ class MailCatcherContext implements Context
      */
     public function openMail($type, $value)
     {
+        $message = $this->findMail($type, $value);
+
+        $this->currentMessage = $message;
+    }
+
+    /**
+     * @Then /^I should see mail (from|with subject|to|containing) "([^"]+)"$/
+     */
+    public function seeMail($type, $value)
+    {
+        $this->findMail($type, $value);
+    }
+
+    /**
+     * @return Message
+     */
+    private function findMail($type, $value)
+    {
         if ($type === 'with subject') {
             $type = 'subject';
         } elseif ($type === 'containing') {
@@ -97,7 +115,7 @@ class MailCatcherContext implements Context
             throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
         }
 
-        $this->currentMessage = $message;
+        return $message;
     }
 
     /**
