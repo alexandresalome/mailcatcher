@@ -84,6 +84,16 @@ Verify text presence in message:
 
      Then I should see "**something else**" in mail
 
+Verify text presence in mail without opening:
+
+     Then I should see mail from "**foo@example.org**"
+
+     Then I should see mail containing "**a message**"
+
+     Then I should see mail to "**me@example.org**"
+
+     Then I should see mail with subject "**Welcome, mister Bond!**"
+
 Client API
 ----------
 
