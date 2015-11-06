@@ -72,7 +72,7 @@ class Parser
             $part = new Part();
             $part->loadSource($content);
             if ($part->isMultipart()) {
-                $result += $part->getParts();
+                $result = array_merge($result, $part->getParts());
             } else {
                 $result[] = $part;
             }
