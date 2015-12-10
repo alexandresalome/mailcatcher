@@ -19,14 +19,28 @@ class Client
      */
     protected $messages = array();
 
+    protected static $defaultCurlOptions = [
+        \CURLOPT_RETURNTRANSFER => true,
+        \CURLOPT_HEADER         => false,
+        \CURLOPT_TIMEOUT_MS     => 3000,
+        \CURLOPT_TIMEOUT        => 3,
+        \CURLOPT_FOLLOWLOCATION => 1,
+        \CURLOPT_MAXREDIRS      => 5,
+        \CURLOPT_FAILONERROR    => true,
+        \CURLOPT_SSL_VERIFYPEER => false,
+    ];
+
+    protected $curlOptions = [];
+
     /**
      * Creates a new client.
      *
      * @param string $url url of the server
      */
-    public function __construct($url = 'http://localhost:1080')
+    public function __construct($url = 'http://localhost:1080', array $curlOptions = [])
     {
         $this->url = $url;
+        $this->curlOptions = $curlOptions + static::$defaultCurlOptions;
     }
 
     /**
@@ -153,36 +167,29 @@ class Client
             throw new \RuntimeException('Unable to create a new cURL handle');
         }
 
-        $options = array(
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => false,
-            CURLOPT_CUSTOMREQUEST  => $method,
-            CURLOPT_URL            => $url,
-            CURLOPT_TIMEOUT_MS     => 3000,
-            CURLOPT_TIMEOUT        => 3,
-            CURLOPT_FOLLOWLOCATION => 1,
-            CURLOPT_MAXREDIRS      => 5,
-            CURLOPT_FAILONERROR    => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-        );
+        $runtimeOptions = [
+            \CURLOPT_CUSTOMREQUEST => $method,
+            \CURLOPT_URL           => $url
+        ];
 
         switch ($method) {
             case 'HEAD':
-                $options[CURLOPT_NOBODY] = true;
+                $runtimeOptions[\CURLOPT_NOBODY] = true;
                 break;
 
             case 'GET':
-                $options[CURLOPT_HTTPGET] = true;
+                $runtimeOptions[\CURLOPT_HTTPGET] = true;
                 break;
 
             case 'POST':
             case 'PUT':
             case 'DELETE':
             case 'PATCH':
-                $options[CURLOPT_POSTFIELDS] = http_build_query($parameters);
-
+                $runtimeOptions[\CURLOPT_POSTFIELDS] = http_build_query($parameters);
                 break;
         }
+
+        $options = $runtimeOptions + $this->curlOptions;
 
         curl_setopt_array($curl, $options);
 

@@ -9,9 +9,9 @@
     </parameters>
 
     <services>
-
         <service id="behat.mailcatcher.client" class="%behat.mailcatcher.client.class%">
             <argument>%behat.mailcatcher.client.url%</argument>
+            <argument>%behat.mailcatcher.client.curl_options%</argument>
         </service>
 
         <service id="behat.mailcatcher.context.initializer" class="%behat.mailcatcher.context.initializer.class%">
@@ -22,6 +22,5 @@
         </service>
 
         <service id="mailcatcher" alias="behat.mailcatcher.client" />
-
     </services>
 </container>
