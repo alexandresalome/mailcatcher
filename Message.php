@@ -12,6 +12,13 @@ use Alex\MailCatcher\Mime\Message as BaseMessage;
  */
 class Message extends BaseMessage
 {
+    const ATTACHMENTS_CRITERIA = 'attachments';
+    const CONTAINS_CRITERIA = 'contains';
+    const FORMAT_CRITERIA = 'format';
+    const FROM_CRITERIA = 'from';
+    const TO_CRITERIA = 'to';
+    const SUBJECT_CRITERIA = 'subject';
+
     /**
      * @var Client
      */
@@ -136,21 +143,21 @@ class Message extends BaseMessage
     {
         foreach ($criterias as $type => $value) {
             switch ($type) {
-                case 'from':
+                case self::FROM_CRITERIA:
                     if (!$this->getSender()->match($value)) {
                         return false;
                     }
 
                     break;
 
-                case 'subject':
+                case self::SUBJECT_CRITERIA:
                     if (false === strpos($this->getSubject(), $value)) {
                         return false;
                     }
 
                     break;
 
-                case 'to':
+                case self::TO_CRITERIA:
                     $foundTo = false;
                     foreach ($this->getRecipients() as $recipient) {
                         if ($recipient->match($value)) {
@@ -165,21 +172,21 @@ class Message extends BaseMessage
 
                     break;
 
-                case 'contains':
+                case self::CONTAINS_CRITERIA:
                     if (false === strpos($this->getContent(), $value)) {
                         return false;
                     }
 
                     break;
 
-                case 'format':
+                case self::FORMAT_CRITERIA:
                     if (!$this->hasFormat($value)) {
                         return false;
                     }
 
                     break;
 
-                case 'attachments':
+                case self::ATTACHMENTS_CRITERIA:
                     if (!is_bool($value)) {
                         throw new \InvalidArgumentException(sprintf('Expected a boolean, got a "%s".', gettype($value)));
                     }
