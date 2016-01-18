@@ -5,6 +5,7 @@ namespace Alex\MailCatcher\Behat;
 use Alex\MailCatcher\Client;
 use Alex\MailCatcher\Message;
 use Behat\Behat\Context\Context;
+use Behat\Behat\Context\TranslatableContext;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class MailCatcherContext implements Context
+class MailCatcherContext implements Context, TranslatableContext
 {
     /**
      * @var Client|null
@@ -80,33 +81,83 @@ class MailCatcherContext implements Context
     }
 
     /**
-     * @When /^I open mail (from|with subject|to|containing) "([^"]+)"$/
+     * @When /^I open mail from "([^"]+)"$/
      */
-    public function openMail($type, $value)
+    public function openMailFrom($value)
     {
-        $message = $this->findMail($type, $value);
+        $message = $this->findMail(Message::FROM_CRITERIA, $value);
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @Then /^I should see mail (from|with subject|to|containing) "([^"]+)"$/
+     * @When /^I open mail with subject "([^"]+)"$/
      */
-    public function seeMail($type, $value)
+    public function openMailSubject($value)
     {
-        $this->findMail($type, $value);
+        $message = $this->findMail(Message::SUBJECT_CRITERIA, $value);
+
+        $this->currentMessage = $message;
     }
+
+    /**
+     * @When /^I open mail to "([^"]+)"$/
+     */
+    public function openMailTo($value)
+    {
+        $message = $this->findMail(Message::TO_CRITERIA, $value);
+
+        $this->currentMessage = $message;
+    }
+
+    /**
+     * @When /^I open mail containing "([^"]+)"$/
+     */
+    public function openMailContaining($value)
+    {
+        $message = $this->findMail(Message::CONTAINS_CRITERIA, $value);
+
+        $this->currentMessage = $message;
+    }
+
+    /**
+     * @Then /^I should see mail from "([^"]+)"$/
+     */
+    public function seeMailFrom($value)
+    {
+        $message = $this->findMail(Message::FROM_CRITERIA, $value);
+    }
+
+    /**
+     * @Then /^I should see mail with subject "([^"]+)"$/
+     */
+    public function seeMailSubject($value)
+    {
+        $message = $this->findMail(Message::SUBJECT_CRITERIA, $value);
+    }
+
+    /**
+     * @Then /^I should see mail to "([^"]+)"$/
+     */
+    public function seeMailTo($value)
+    {
+        $message = $this->findMail(Message::TO_CRITERIA, $value);
+    }
+
+    /**
+     * @Then /^I should see mail containing "([^"]+)"$/
+     */
+    public function seeMailContaining($value)
+    {
+        $message = $this->findMail(Message::CONTAINS_CRITERIA, $value);
+    }
+
 
     /**
      * @return Message
      */
     private function findMail($type, $value)
     {
-        if ($type === 'with subject') {
-            $type = 'subject';
-        } elseif ($type === 'containing') {
-            $type = 'contains';
-        }
         $criterias = array($type => $value);
 
         $message = $this->getClient()->searchOne($criterias);
@@ -151,6 +202,16 @@ class MailCatcherContext implements Context
         if ($count !== $actual) {
             throw new \InvalidArgumentException(sprintf('Expected %d mails to be sent, got %d.', $count, $actual));
         }
+    }
+
+    /**
+     * Returns list of definition translation resources paths.
+     *
+     * @return array
+     */
+    public static function getTranslationResources()
+    {
+        return glob(__DIR__.'/../i18n/*.xliff');
     }
 
     /**

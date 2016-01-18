@@ -1,0 +1,51 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file original="global" source-language="en" target-language="es" datatype="plaintext">
+        <header />
+        <body>
+            <trans-unit id="i-purge-mails">
+                <source><![CDATA[/^I purge mails$/]]></source>
+                <target><![CDATA[/^elimino los correos$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-open-mail-from">
+                <source><![CDATA[/^I open mail from "([^"]+)"$/]]></source>
+                <target><![CDATA[/^abro un correo de "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-open-mail-with-subject">
+                <source><![CDATA[/^I open mail with subject "([^"]+)"$/]]></source>
+                <target><![CDATA[/^abro un correo con asunto "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-open-mail-to">
+                <source><![CDATA[/^I open mail to "([^"]+)"$/]]></source>
+                <target><![CDATA[/^abro un correo para "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-open-mail-containing">
+                <source><![CDATA[/^I open mail containing "([^"]+)"$/]]></source>
+                <target><![CDATA[/^abro un correo conteniendo "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-should-see-mail-from">
+                <source><![CDATA[/^I should see mail from "([^"]+)"$/]]></source>
+                <target><![CDATA[/^debería ver un correo de "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-should-see-mail-with-subject">
+                <source><![CDATA[/^I should see mail with subject "([^"]+)"$/]]></source>
+                <target><![CDATA[/^debería ver un correo con asunto "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-should-see-mail-to">
+                <source><![CDATA[/^I should see mail to "([^"]+)"$/]]></source>
+                <target><![CDATA[/^debería ver un correo para "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-should-see-mail-containing">
+                <source><![CDATA[/^I should see mail containing "([^"]+)"$/]]></source>
+                <target><![CDATA[/^debería ver un correo conteniendo "([^"]+)"$/]]></target>
+            </trans-unit>
+            <trans-unit id="i-should-see">
+                <source><![CDATA[/^I should see "([^"]+)" in mail$/]]></source>
+                <target><![CDATA[/^debería ver "([^"]+)" en el correo$/]]></target>
+            </trans-unit>
+            <trans-unit id="mails-sent">
+                <source><![CDATA[/^(?P<count>\d+) mails? should be sent$/]]></source>
+                <target><![CDATA[/^(?P<count>\d+) correos? deberían haber sido enviados/]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
