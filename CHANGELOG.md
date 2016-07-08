@@ -4,6 +4,7 @@
 
 * [feature] Adds a Trait to ease the construction of custom Behat classes (Alexandre Salomé)
 * [feature] Allow connection error when purging before scenario (Alexandre Salomé)
+* [feature] Test on Travis against multiple PHP versions (Alexandre Salomé)
 
 ## 1.1.1 (17/03/2016)
 
