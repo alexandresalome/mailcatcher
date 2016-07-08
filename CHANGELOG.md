@@ -1,6 +1,6 @@
 # CHANGLOG
 
-## 1.2.0 (under development)
+## 1.2.0 (08/07/2016)
 
 * [feature] Adds a Trait to ease the construction of custom Behat classes (Alexandre Salomé)
 * [feature] Allow connection error when purging before scenario (Alexandre Salomé)
