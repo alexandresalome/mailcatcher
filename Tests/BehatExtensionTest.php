@@ -17,6 +17,9 @@ class BehatExtensionTest extends AbstractTest
 
     public function testTrait()
     {
+        if (version_compare(PHP_VERSION, "5.4") < 0) {
+            $this->markTestSkipped("PHP version not supported");
+        }
         $this->getClient()->purge();
 
         $this->sendMessage(\Swift_Message::newInstance()
@@ -88,15 +91,21 @@ class BehatExtensionTest extends AbstractTest
         $file = $file.'.feature';
         $content = "Feature: Test\n\n  Scenario: Test\n    ".implode("\n    ", $steps)."\n";
 
+        $contexts = array(
+            'Alex\MailCatcher\Behat\MailCatcherContext',
+            'Alex\MailCatcher\Tests\BehatCustomContext',
+        );
+
+        if (version_compare(PHP_VERSION, "5.4") > 0) {
+            $contexts[] = 'Alex\MailCatcher\Tests\BehatTraitContext';
+        }
+
         $config = json_encode(array(
             'default' => array(
                 'suites' => array(
                     'default' => array(
                         'paths' => array(sys_get_temp_dir()),
-                        'contexts' => array(
-                            'Alex\MailCatcher\Behat\MailCatcherContext',
-                            'Alex\MailCatcher\Tests\BehatCustomContext',
-                        ),
+                        'contexts' => $contexts,
                     ),
                 ),
                 'extensions' => array(

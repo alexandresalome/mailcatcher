@@ -87,6 +87,8 @@ Verify text presence in mail without opening:
 
 ### Custom mailcatcher context
 
+**Only available from PHP 5.4**
+
 If you want to create a context class that relates to MailCatcher, you can use the **MailCatcherTrait** to get the mailcatcher client injected inside your class:
 
 ```php

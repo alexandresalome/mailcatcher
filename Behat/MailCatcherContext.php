@@ -15,7 +15,12 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwareInterface
 {
-    use MailCatcherTrait;
+    /**
+     * This property is duplicated from MailCatcherTrait for support in PHP 5.3
+     *
+     * @var Client|null
+     */
+    protected $mailCatcherClient;
 
     /**
      * @var boolean
@@ -206,4 +211,53 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
 
         return new Crawler($message->getPart('text/html')->getContent());
     }
+
+    /**
+     * This method is duplicated from MailCatcherTrait, for support in PHP 5.3
+     *
+     * Sets the mailcatcher client.
+     *
+     * @param Client  $client a mailcatcher client
+     */
+    public function setMailCatcherClient(Client $client)
+    {
+        $this->mailCatcherClient = $client;
+    }
+
+    /**
+     * This method is duplicated from MailCatcherTrait, for support in PHP 5.3
+     *
+     * Returns the mailcatcher client.
+     *
+     * @return Client
+     *
+     * @throws \RuntimeException client if missing from context
+     */
+    public function getMailCatcherClient()
+    {
+        if (null === $this->mailCatcherClient) {
+            throw new \RuntimeException(sprintf('No MailCatcher client injected.'));
+        }
+
+        return $this->mailCatcherClient;
+    }
+
+    /**
+     * This method is duplicated from MailCatcherTrait, for support in PHP 5.3
+     *
+     * @return Message
+     */
+    protected function findMail($type, $value)
+    {
+        $criterias = array($type => $value);
+
+        $message = $this->getMailCatcherClient()->searchOne($criterias);
+
+        if (null === $message) {
+            throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
+        }
+
+        return $message;
+    }
+
 }
