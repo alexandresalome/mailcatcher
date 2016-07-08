@@ -8,6 +8,22 @@ use Symfony\Component\Console\Output\NullOutput;
 
 class BehatExtensionTest extends AbstractTest
 {
+    public function testTrait()
+    {
+        $this->getClient()->purge();
+
+        $this->sendMessage(\Swift_Message::newInstance()
+            ->setSubject('Welcome!')
+            ->setFrom('world@example.org')
+            ->setTo('mailcatcher@example.org')
+            ->setBody('This is a message from world to mailcatcher')
+        );
+
+        $this->runBehat(array(
+            "Then a welcome mail should be sent",
+        ));
+    }
+
     public function testCriterias()
     {
         $this->getClient()->purge();
@@ -71,10 +87,8 @@ class BehatExtensionTest extends AbstractTest
                     'default' => array(
                         'paths' => array(sys_get_temp_dir()),
                         'contexts' => array(
-                            'Behat\MinkExtension\Context\MinkContext',
                             'Alex\MailCatcher\Behat\MailCatcherContext',
-                            'Alex\MailCatcher\Test\UrlContext',
-                            'Alex\MailCatcher\Test\TestContext',
+                            'Alex\MailCatcher\Tests\BehatCustomContext',
                         ),
                     ),
                 ),

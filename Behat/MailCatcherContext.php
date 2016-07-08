@@ -13,12 +13,9 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class MailCatcherContext implements Context, TranslatableContext
+class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwareInterface
 {
-    /**
-     * @var Client|null
-     */
-    protected $client;
+    use MailCatcherTrait;
 
     /**
      * @var boolean
@@ -31,31 +28,13 @@ class MailCatcherContext implements Context, TranslatableContext
     protected $currentMessage;
 
     /**
-     * Sets configuration of the context.
+     * Sets mailcatcher configuration.
      *
-     * @param Client  $client client to use for API.
      * @param boolean $purgeBeforeScenario set false if you don't want context to purge before scenario
      */
-    public function setConfiguration(Client $client, $purgeBeforeScenario = true)
+    public function setMailCatcherConfiguration($purgeBeforeScenario = true)
     {
-        $this->client = $client;
         $this->purgeBeforeScenario = $purgeBeforeScenario;
-    }
-
-    /**
-     * Method used to chain calls. Throws exception if client is missing.
-     *
-     * @return client
-     *
-     * @throws \RuntimeException client if missing from context
-     */
-    public function getClient()
-    {
-        if (null === $this->client) {
-            throw new \RuntimeException(sprintf('Client is missing from MailCatcherContext'));
-        }
-
-        return $this->client;
     }
 
     /**
@@ -68,7 +47,7 @@ class MailCatcherContext implements Context, TranslatableContext
         }
 
         $this->currentMessage = null;
-        $this->getClient()->purge();
+        $this->getMailCatcherClient()->purge();
     }
 
 
@@ -77,7 +56,7 @@ class MailCatcherContext implements Context, TranslatableContext
      */
     public function purge()
     {
-        $this->getClient()->purge();
+        $this->getMailCatcherClient()->purge();
     }
 
     /**
@@ -154,22 +133,6 @@ class MailCatcherContext implements Context, TranslatableContext
 
 
     /**
-     * @return Message
-     */
-    private function findMail($type, $value)
-    {
-        $criterias = array($type => $value);
-
-        $message = $this->getClient()->searchOne($criterias);
-
-        if (null === $message) {
-            throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
-        }
-
-        return $message;
-    }
-
-    /**
      * @Then /^I should see "([^"]+)" in mail$/
      */
     public function seeInMail($text)
@@ -197,7 +160,7 @@ class MailCatcherContext implements Context, TranslatableContext
     public function verifyMailsSent($count)
     {
         $count = (int) $count;
-        $actual = $this->getClient()->getMessageCount();
+        $actual = $this->getMailCatcherClient()->getMessageCount();
 
         if ($count !== $actual) {
             throw new \InvalidArgumentException(sprintf('Expected %d mails to be sent, got %d.', $count, $actual));

@@ -94,6 +94,41 @@ Verify text presence in mail without opening:
 
      Then I should see mail with subject "**Welcome, mister Bond!**"
 
+Custom mailcatcher context
+::::::::::::::::::::::::::
+
+
+If you want to create a context class that relates to MailCatcher, you can use the **MailCatcherTrait** to get the mailcatcher client injected inside your class:
+
+.. code-block:: php
+
+   <?php
+
+   use Alex\MailCatcher\Behat\MailCatcherAwareInterface;
+   use Alex\MailCatcher\Behat\MailCatcherTrait;
+   use Alex\MailCatcher\Message;
+   use Behat\Behat\Context\Context;
+
+   class WelcomeContext implements Context, MailCatcherAwareInterface
+   {
+       use MailCatcherTrait;
+
+       /**
+        * @Then /^a welcome mail should be sent$/
+        */
+       public function testTrait()
+       {
+           $this->findMail(Message::SUBJECT_CRITERIA, 'Welcome!');
+       }
+   }
+
+This trait offers the following methods:
+
+* **getMailCatcherClient()**: returns the mailcatcher **Client**  instance.
+* **findMail($criteria, $value)**: facility to search for a given message, or throws an exception if not found
+
+**Don't forget** to implement the **MailCatcherAwareInterface** to get the mailcatcher client injected inside your context class.
+
 Client API
 ----------
 
@@ -157,3 +192,10 @@ Browse easily your API with the integrated SDK:
     $attachment->getSize();
     $attachment->getType();
     $attachment->getContent();
+
+Run mailcatcher in a docker container
+-------------------------------------
+
+.. code-block:: bash
+
+    docker run -d -p 1080:1080 -p 1025:1025 --name mailcatcher schickling/mailcatcher

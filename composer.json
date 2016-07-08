@@ -15,7 +15,6 @@
     "require-dev": {
         "swiftmailer/swiftmailer": "~5.0",
         "behat/behat":             "~3.0",
-        "behat/mink-extension":    "~2.0",
         "phpunit/phpunit":         "~4.6"
     }
 }

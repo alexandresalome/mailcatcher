@@ -2,6 +2,7 @@
 
 namespace Alex\MailCatcher\Behat\MailCatcherExtension;
 
+use Alex\MailCatcher\Behat\MailCatcherAwareInterface;
 use Alex\MailCatcher\Behat\MailCatcherContext;
 use Alex\MailCatcher\Client;
 use Behat\Behat\Context\Context;
@@ -29,7 +30,7 @@ class ContextInitializer implements InitializerInterface
      */
     public function supports(Context $context)
     {
-        return $context instanceof MailCatcherContext;
+        return $context instanceof MailCatcherAwareInterface || $context instanceof MailCatcherContext;
     }
 
     /**
@@ -37,10 +38,12 @@ class ContextInitializer implements InitializerInterface
      */
     public function initializeContext(Context $context)
     {
-        if (!$context instanceof MailCatcherContext) {
-            return;
+        if ($context instanceof MailCatcherAwareInterface) {
+            $context->setMailCatcherClient($this->client);
         }
 
-        $context->setConfiguration($this->client, $this->purgeBeforeScenario);
+        if ($context instanceof MailCatcherContext) {
+            $context->setMailCatcherConfiguration($this->purgeBeforeScenario);
+        }
     }
 }

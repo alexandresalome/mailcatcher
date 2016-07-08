@@ -62,8 +62,6 @@ EOF;
         );
     }
 
-
-
     public function testMultiPartWithQuotedBoundary ()
     {
         $message = <<<EOF
