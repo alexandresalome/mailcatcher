@@ -18,4 +18,12 @@ class BehatCustomContext implements Context, MailCatcherAwareInterface
     {
         $this->findMail(Message::SUBJECT_CRITERIA, 'Welcome!');
     }
+
+    /**
+     * @When /^I do something$/
+     */
+    public function testSomething()
+    {
+        // test step
+    }
 }

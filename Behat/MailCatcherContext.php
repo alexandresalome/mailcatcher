@@ -47,7 +47,11 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
         }
 
         $this->currentMessage = null;
-        $this->getMailCatcherClient()->purge();
+        try {
+            $this->getMailCatcherClient()->purge();
+        } catch (\Exception $e) {
+            @trigger_error("Unable to purge mailcatcher: ".$e->getMessage());
+        }
     }
 
 

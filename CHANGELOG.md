@@ -3,6 +3,7 @@
 ## 1.2.0 (under development)
 
 * [feature] Adds a Trait to ease the construction of custom Behat classes (Alexandre Salomé)
+* [feature] Allow connection error when purging before scenario (Alexandre Salomé)
 
 ## 1.1.1 (17/03/2016)
 

@@ -8,6 +8,13 @@ use Symfony\Component\Console\Output\NullOutput;
 
 class BehatExtensionTest extends AbstractTest
 {
+    public function testNoServer()
+    {
+        $this->runBehat(array(
+            "When I do something",
+        ), true, true);
+    }
+
     public function testTrait()
     {
         $this->getClient()->purge();
@@ -70,7 +77,7 @@ class BehatExtensionTest extends AbstractTest
 
     }
 
-    private function runBehat($steps, $purge_before_scenario = false)
+    private function runBehat($steps, $purge_before_scenario = false, $failServer = false)
     {
         $client = $this->getClient();
 
@@ -94,7 +101,7 @@ class BehatExtensionTest extends AbstractTest
                 ),
                 'extensions' => array(
                         'Alex\MailCatcher\Behat\MailCatcherExtension\Extension' => array(
-                            'url' => $client->getUrl(),
+                            'url' => $failServer ? 'http://localhost:1337' : $client->getUrl(),
                             'purge_before_scenario' => $purge_before_scenario
                     ),
                 )
