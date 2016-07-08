@@ -1,6 +1,8 @@
 language: php
 before_script:
    - composer install
+   # see https://github.com/sj26/mailcatcher/issues/277
+   - gem install mime-types --version "< 3"
    - gem install mailcatcher
    - mailcatcher
 php:
