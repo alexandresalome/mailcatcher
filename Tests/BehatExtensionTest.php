@@ -111,7 +111,8 @@ class BehatExtensionTest extends AbstractTest
                 'extensions' => array(
                         'Alex\MailCatcher\Behat\MailCatcherExtension\Extension' => array(
                             'url' => $failServer ? 'http://localhost:1337' : $client->getUrl(),
-                            'purge_before_scenario' => $purge_before_scenario
+                            'purge_before_scenario' => $purge_before_scenario,
+                            'mailhog' => $this->isTestingMailhog()
                     ),
                 )
             )

@@ -1,0 +1,2 @@
+<?php
+$testMailhog = true;

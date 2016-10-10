@@ -34,7 +34,10 @@ class ClientTest extends AbstractTest
 
         // searchOne
         $message = $client->searchOne(array('subject' => '3 ='));
-        $this->assertInstanceOf('Alex\MailCatcher\Message', $message);
+        if ($this->isTestingMailhog())
+            $this->assertInstanceOf('Alex\MailCatcher\MailhogMessage', $message, "message exists");
+        else
+            $this->assertInstanceOf('Alex\MailCatcher\Message', $message, "message exists");
         $this->assertEquals('3 = 1 x 3 + 0', $message->getSubject());
 
         // search
@@ -63,7 +66,10 @@ class ClientTest extends AbstractTest
 
         $message = $client->searchOne();
 
-        $this->assertInstanceOf('Alex\MailCatcher\Message', $message, "message exists");
+        if ($this->isTestingMailhog())
+            $this->assertInstanceOf('Alex\MailCatcher\MailhogMessage', $message, "message exists");
+        else
+            $this->assertInstanceOf('Alex\MailCatcher\Message', $message, "message exists");
         $this->assertTrue($message->hasAttachments(), "message has attachments");
 
         $attachments = $message->getAttachments();

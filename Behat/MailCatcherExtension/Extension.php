@@ -30,10 +30,21 @@ class Extension implements ExtensionInterface
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/services'));
         $loader->load('core.xml');
 
+        if ($config['mailhog'])
+            $this->loadMailhog($container);
+
         $this->loadContextInitializer($container);
 
         $container->setParameter('behat.mailcatcher.client.url', $config['url']);
         $container->setParameter('behat.mailcatcher.purge_before_scenario', $config['purge_before_scenario']);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function loadMailhog(ContainerBuilder $container)
+    {
+        $container->setDefinition(self::MAILCATCHER_ID, new Definition('Alex\MailCatcher\MailhogClient'));
     }
 
     /**
@@ -57,6 +68,7 @@ class Extension implements ExtensionInterface
         $builder
             ->children()
                 ->booleanNode('purge_before_scenario')->defaultTrue()->end()
+                ->booleanNode('mailhog')->defaultFalse()->end()
                 ->scalarNode('url')->defaultValue('http://localhost:1080')->end()
             ->end()
         ;

@@ -22,6 +22,7 @@
     <php>
         <server name="MAILCATCHER_HTTP" value="http://localhost:1080" />
         <server name="MAILCATCHER_SMTP" value="smtp://localhost:1025" />
+        <server name="MAILHOG_HTTP" value="http://localhost:8025" />
     </php>
 
     <filter>

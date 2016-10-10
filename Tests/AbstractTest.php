@@ -3,15 +3,23 @@
 namespace Alex\MailCatcher\Tests;
 
 use Alex\MailCatcher\Client;
+use Alex\MailCatcher\MailhogClient;
 
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {
+    public function isTestingMailhog() {
+        global $testMailhog;
+        return ($testMailhog === true);
+    }
+
     public function getClient()
     {
         if (!isset($_SERVER['MAILCATCHER_HTTP'])) {
             $this->markTestSkipped('mailcatcher HTTP missing');
         }
 
+        if ($this->isTestingMailhog())
+            return new MailhogClient($_SERVER['MAILHOG_HTTP']);
         return new Client($_SERVER['MAILCATCHER_HTTP']);
     }
 
