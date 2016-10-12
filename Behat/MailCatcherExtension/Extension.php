@@ -44,7 +44,12 @@ class Extension implements ExtensionInterface
      */
     private function loadMailhog(ContainerBuilder $container)
     {
-        $container->setDefinition(self::MAILCATCHER_ID, new Definition('Alex\MailCatcher\MailhogClient'));
+        $container->setDefinition(self::MAILCATCHER_ID, new Definition(
+            'Alex\MailCatcher\MailhogClient',
+            array(
+                '%behat.mailcatcher.client.url%'
+            )
+        ));
     }
 
     /**
