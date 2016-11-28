@@ -32,7 +32,13 @@ class Extension implements ExtensionInterface
 
         $this->loadContextInitializer($container);
 
+        foreach ($config['curl_options'] as $key => $value) {
+            $config['curl_options'][constant($key)] = $value;
+            unset($config['curl_options'][$key]);
+        }
+
         $container->setParameter('behat.mailcatcher.client.url', $config['url']);
+        $container->setParameter('behat.mailcatcher.client.curl_options', $config['curl_options']);
         $container->setParameter('behat.mailcatcher.purge_before_scenario', $config['purge_before_scenario']);
     }
 
@@ -58,6 +64,10 @@ class Extension implements ExtensionInterface
             ->children()
                 ->booleanNode('purge_before_scenario')->defaultTrue()->end()
                 ->scalarNode('url')->defaultValue('http://localhost:1080')->end()
+                ->arrayNode('curl_options')
+                    ->prototype('scalar')
+                    ->end()
+                ->end()
             ->end()
         ;
     }
