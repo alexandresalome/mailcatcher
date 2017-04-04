@@ -60,18 +60,22 @@ class BehatExtensionTest extends AbstractTest
             // Criteria "from"
             'When I open mail from "world@example.org"',
             'Then I should see "from world" in mail',
+            'Then I should see "from world" in mail source',
 
             // Criteria "to"
             'When I open mail to "mailcatcher@example.org"',
             'Then I should see "from world to mailcatcher" in mail',
+            'Then I should see "from world to mailcatcher" in mail source',
 
             // Criteria "containing"
             'When I open mail containing "to mailcatcher"',
             'Then I should see "from world to mailcatcher" in mail',
+            'Then I should see "from world to mailcatcher" in mail source',
 
             // Criteria "with subject"
             'When I open mail with subject "hello mailcatcher"',
             'Then I should see "from world to mailcatcher" in mail',
+            'Then I should see "from world to mailcatcher" in mail source',
         ));
 
         $this->runBehat(array(

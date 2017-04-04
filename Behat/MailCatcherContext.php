@@ -164,6 +164,20 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
+     * @Then /^I should see "([^"]+)" in mail source$/
+     */
+    public function seeInMailSource($text)
+    {
+        $message = $this->getCurrentMessage();
+
+        $content = $message->getContent();
+
+        if (false === strpos($content, $text)) {
+            throw new \InvalidArgumentException(sprintf("Unable to find text \"%s\" in current message source:\n%s", $text, $content));
+        }
+    }
+
+    /**
      * @Then /^(?P<count>\d+) mails? should be sent$/
      */
     public function verifyMailsSent($count)

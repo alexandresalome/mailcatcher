@@ -77,6 +77,7 @@ Verify text presence in message:
 
 * Then I should see "**something**" in mail
 * Then I should see "**something else**" in mail
+* Then I should see "**something else**" in mail source
 
 Verify text presence in mail without opening:
 
