@@ -78,6 +78,10 @@ Verify text presence in message:
 * Then I should see "**something**" in mail
 * Then I should see "**something else**" in mail
 
+Verify text absence in message:
+
+* Then I should not see "**something**" in mail
+
 Verify text presence in mail without opening:
 
 * Then I should see mail from "**foo@example.org**"
