@@ -69,37 +69,37 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
-     * @When /^I open mail from "([^"]+)"$/
+     * @When I open mail from :from
      */
-    public function openMailFrom($value)
+    public function openMailFrom($from)
     {
-        $message = $this->findMail(Message::FROM_CRITERIA, $value);
+        $message = $this->findMail(Message::FROM_CRITERIA, $from);
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @When /^I open mail with subject "([^"]+)"$/
+     * @When I open mail with subject :subject
      */
-    public function openMailSubject($value)
+    public function openMailSubject($subject)
     {
-        $message = $this->findMail(Message::SUBJECT_CRITERIA, $value);
+        $message = $this->findMail(Message::SUBJECT_CRITERIA, $subject);
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @When /^I open mail to "([^"]+)"$/
+     * @When I open mail to :to
      */
-    public function openMailTo($value)
+    public function openMailTo($to)
     {
-        $message = $this->findMail(Message::TO_CRITERIA, $value);
+        $message = $this->findMail(Message::TO_CRITERIA, $to);
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @When /^I open mail containing "([^"]+)"$/
+     * @When I open mail containing :value
      */
     public function openMailContaining($value)
     {
@@ -109,11 +109,11 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
-     * @Then /^I should see mail from "([^"]+)"$/
+     * @Then I should see mail from :from
      */
-    public function seeMailFrom($value)
+    public function seeMailFrom($from)
     {
-        $message = $this->findMail(Message::FROM_CRITERIA, $value);
+        $message = $this->findMail(Message::FROM_CRITERIA, $from);
     }
 
     /**
