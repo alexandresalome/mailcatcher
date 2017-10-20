@@ -142,7 +142,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
 
 
     /**
-     * @Then /^I should see "([^"]+)" in mail$/
+     * @Then I should see :text in mail
      */
     public function seeInMail($text)
     {
@@ -164,7 +164,8 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
-     * @Then /^(?P<count>\d+) mails? should be sent$/
+     * @Then :count mails should be sent
+     * @Then :count mail should be sent
      */
     public function verifyMailsSent($count)
     {
