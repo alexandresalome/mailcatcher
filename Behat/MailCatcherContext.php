@@ -121,7 +121,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
      */
     public function notSeeMailFrom($from)
     {
-        $message = !$this->findMail(Message::FROM_CRITERIA, $from);
+        $message = $this->findMail(Message::FROM_CRITERIA, $from, true);
     }
 
     /**
@@ -137,7 +137,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
      */
     public function notSeeMailSubject($value)
     {
-        $message = !$this->findMail(Message::SUBJECT_CRITERIA, $value);
+        $message = $this->findMail(Message::SUBJECT_CRITERIA, $value, true);
     }
 
     /**
@@ -153,7 +153,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
      */
     public function notSeeMailTo($value)
     {
-        $message = !$this->findMail(Message::TO_CRITERIA, $value);
+        $message = $this->findMail(Message::TO_CRITERIA, $value, true);
     }
 
     /**
@@ -169,7 +169,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
      */
     public function notSeeMailContaining($value)
     {
-        $message = !$this->findMail(Message::CONTAINS_CRITERIA, $value);
+        $message = $this->findMail(Message::CONTAINS_CRITERIA, $value, true);
     }
 
 
@@ -280,14 +280,21 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
      *
      * @return Message
      */
-    protected function findMail($type, $value)
+    protected function findMail($type, $value, $negation = false)
     {
         $criterias = array($type => $value);
 
         $message = $this->getMailCatcherClient()->searchOne($criterias);
 
         if (null === $message) {
+            // If no message was found but we wanted to NOT see a message, return a fake message to make the test pass
+            if($negation) return new Message($this->mailCatcherClient);
             throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
+        } else {
+            if($negation) {
+                // If a message was found but we wanted to NOT see a message, throw an exception
+                throw new \InvalidArgumentException(sprintf('A message corresponding to your criterias was found : "%s".', json_encode($criterias)));
+            }
         }
 
         return $message;
