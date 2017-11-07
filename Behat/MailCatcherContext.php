@@ -117,11 +117,27 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
+     * @Then I should not see mail from :from
+     */
+    public function notSeeMailFrom($from)
+    {
+        $message = !$this->findMail(Message::FROM_CRITERIA, $from);
+    }
+
+    /**
      * @Then /^I should see mail with subject "([^"]+)"$/
      */
     public function seeMailSubject($value)
     {
         $message = $this->findMail(Message::SUBJECT_CRITERIA, $value);
+    }
+
+    /**
+     * @Then /^I should not see mail with subject "([^"]+)"$/
+     */
+    public function notSeeMailSubject($value)
+    {
+        $message = !$this->findMail(Message::SUBJECT_CRITERIA, $value);
     }
 
     /**
@@ -133,11 +149,27 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
+     * @Then /^I should not see mail to "([^"]+)"$/
+     */
+    public function notSeeMailTo($value)
+    {
+        $message = !$this->findMail(Message::TO_CRITERIA, $value);
+    }
+
+    /**
      * @Then /^I should see mail containing "([^"]+)"$/
      */
     public function seeMailContaining($value)
     {
         $message = $this->findMail(Message::CONTAINS_CRITERIA, $value);
+    }
+
+    /**
+     * @Then /^I should not see mail containing "([^"]+)"$/
+     */
+    public function notSeeMailContaining($value)
+    {
+        $message = !$this->findMail(Message::CONTAINS_CRITERIA, $value);
     }
 
 
