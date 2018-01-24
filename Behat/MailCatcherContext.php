@@ -69,6 +69,26 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
+     * @When I open mail with subject :subject from :from to :to
+     */
+    public function openMailSubject($subject, $from, $to)
+    {
+        $criterias = [
+          'from' => $from,
+          'subject' => $subject,
+          'to' => $to
+        ];
+
+        $message = $this->getMailCatcherClient()->searchOne($criterias);
+
+        if (!$message) {
+          throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
+        }
+
+        $this->currentMessage = $message;
+    }
+
+    /**
      * @When I open mail from :from
      */
     public function openMailFrom($from)
