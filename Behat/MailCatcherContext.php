@@ -71,7 +71,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     /**
      * @When I open mail with subject :subject from :from to :to
      */
-    public function openMailSubject($subject, $from, $to)
+    public function openMailSubjectFromTo($subject, $from, $to)
     {
         $criterias = [
           'from' => $from,
