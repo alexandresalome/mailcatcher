@@ -1,15 +1,15 @@
 {
-    "name": "alexandresalome/mailcatcher",
+    "name": "diegohq/mailcatcher",
     "license": "MIT",
     "type": "library",
-    "description": "A library to access MailCatcher",
+    "description": "A library to access MailCatcher alternative while original repo is not updated for Symfony 4.0",
     "autoload": {
         "psr-0": { "Alex\\MailCatcher": "" }
     },
     "target-dir": "Alex/MailCatcher",
     "require": {
         "php":                     ">=5.3.3",
-        "symfony/dom-crawler":     "~2.3|~3.0"
+        "symfony/dom-crawler":     "~2.3|~3.0|~4.0"
     },
 
     "require-dev": {
