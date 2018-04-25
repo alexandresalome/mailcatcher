@@ -1,8 +1,8 @@
 {
-    "name": "diegohq/mailcatcher",
+    "name": "alexandresalome/mailcatcher",
     "license": "MIT",
     "type": "library",
-    "description": "A library to access MailCatcher alternative while original repo is not updated for Symfony 4.0",
+    "description": "A library to access MailCatcher",
     "autoload": {
         "psr-0": { "Alex\\MailCatcher": "" }
     },
