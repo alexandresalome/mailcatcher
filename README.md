@@ -132,17 +132,17 @@ $messages = $client->search();
 $client->getMessageCount();
 
 // Filter messages
-$messages = $client->search(array(
+$messages = $client->search([
     'from'        => 'bob@example.org',
     'to'          => 'alice@example.org',
     'subject'     => 'Bla',
     'contains'    => 'Hello',
     'attachments' => true,
     'format'      => 'html',
-), $limit = 3);
+], $limit = 3);
 
 // Search one message
-$message = $client->searchOne(array('subject' => 'Welcome'));
+$message = $client->searchOne(['subject' => 'Welcome']);
 ```
 
 **Message API**
