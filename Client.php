@@ -98,6 +98,11 @@ class Client
             if (isset($this->messages[$message['id']])) {
                 $messages[] = $this->messages[$message['id']];
             } else {
+                // From mailcatcher v1.7, the request on / does not return the source
+                if (!isset($message['source'])) {
+                    $source = $this->request('GET', $message['id'] . '.source', array(), false);
+                    $message['source'] = $source;
+                }
                 $messages[] = $this->messages[$message['id']] = new Message($this, $message);
             }
         }
@@ -122,9 +127,9 @@ class Client
      * @param string $path   relative path from '/messages' (ex: null, '132.json')
      * @param array  $parameters parameters to POST
      *
-     * @return string response body
+     * @return array response body
      */
-    public function request($method, $path = null, $parameters = array())
+    public function request($method, $path = null, $parameters = array(), $jsonDecode = true)
     {
         if (null === $path) {
             $url = '/messages';
@@ -132,7 +137,9 @@ class Client
             $url  = '/messages/'.$path;
         }
 
-        return json_decode($this->requestRaw($method, $url, $parameters), true);
+        $raw = $this->requestRaw($method, $url, $parameters);
+
+        return $jsonDecode ? json_decode($raw, true) : $raw;
     }
 
     /**
@@ -198,6 +205,6 @@ class Client
             throw new \RuntimeException(sprintf('Unable to connect to "%s".', $this->url));
         }
 
-        throw new \RuntimeException(sprintf('Unexpected status code. Expected valid code, got %s.', $statusCode));
+        throw new \RuntimeException(sprintf('Unexpected status code for url "%s". Expected valid code, got %s.', $url, $statusCode));
     }
 }
