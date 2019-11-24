@@ -2,6 +2,7 @@
 
 ## 1.3.0 (not released)
 
+- [bug] #27 - Support for multipart with parameters (Nirbhay Patil)
 - [bug] Support for mailcatcher 1.7 (Alexandre Salomé)
 
 ## 1.2.0 (08/07/2016)
