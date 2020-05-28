@@ -9,7 +9,7 @@
     "target-dir": "Alex/MailCatcher",
     "require": {
         "php":                     ">=5.3.3",
-        "symfony/dom-crawler":     "~2.3|~3.0|~4.0"
+        "symfony/dom-crawler":     "~2.3|~3.0|~4.0|~5.0"
     },
 
     "require-dev": {
