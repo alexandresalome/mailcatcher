@@ -1,6 +1,6 @@
 # CHANGLOG
 
-## 1.3.0 (not released)
+## 1.3.0 (04/08/2020)
 
 - [feature] #36 - Support for Symfony5 (Vincent Moulene)
 - [bug] #27 - Support for multipart with parameters (Nirbhay Patil)
