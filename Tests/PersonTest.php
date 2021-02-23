@@ -24,7 +24,7 @@ class PersonTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideIncorrect
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testIncorrect($string)
     {

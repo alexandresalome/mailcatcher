@@ -1,5 +1,11 @@
 # CHANGLOG
 
+## 1.3.0 (04/08/2020)
+
+- [feature] #36 - Support for Symfony5 (Vincent Moulene)
+- [bug] #27 - Support for multipart with parameters (Nirbhay Patil)
+- [bug] Support for mailcatcher 1.7 (Alexandre Salomé)
+
 ## 1.2.0 (08/07/2016)
 
 * [feature] Adds a Trait to ease the construction of custom Behat classes (Alexandre Salomé)

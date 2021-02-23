@@ -4,7 +4,7 @@ namespace Alex\MailCatcher\Tests;
 
 use Behat\Behat\ApplicationFactory;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class BehatExtensionTest extends AbstractTest
 {
@@ -122,8 +122,9 @@ class BehatExtensionTest extends AbstractTest
             $behat = $application->createApplication();
             $behat->setAutoExit(false);
 
+            chdir(sys_get_temp_dir());
             $input = new ArgvInput(array('behat', '--format', 'progress', '--config', $configFile, '--out', $outputFile, $file));
-            $output = new NullOutput();
+            $output = new BufferedOutput();
 
             file_put_contents($file, $content);
             file_put_contents($configFile, $config);
@@ -139,7 +140,8 @@ class BehatExtensionTest extends AbstractTest
         }
 
         if ($result !== 0) {
-            $this->fail('Should finished with status 0, got '.$result);
+            $fileOutput = file_exists($outputFile) ? file_get_contents($outputFile) : '*no file*';
+            $this->fail(sprintf("Behat execution finished with status %d (expected 0).\nConsole output:\n===============\n%s\n\nOutput file:\n============\n%s", $result, $output->fetch(), $fileOutput));
         }
     }
 }
