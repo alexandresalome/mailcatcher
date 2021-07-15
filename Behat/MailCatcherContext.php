@@ -159,7 +159,7 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
         }
 
         if (false === strpos($content, $text)) {
-            throw new \InvalidArgumentException(sprintf("Unable to find text \"%s\" in current message:\n%s", $text, $message->getContent()));
+            throw new \InvalidArgumentException(sprintf("Unable to find text \"%s\" in current message:\n%s", $text, $content));
         }
     }
 
