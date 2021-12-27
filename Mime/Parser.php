@@ -184,7 +184,7 @@ class Parser
      */
     protected function consumeRegexp($regexp)
     {
-        if (!preg_match($regexp.'A', $this->content, $vars, null, $this->cursor)) {
+        if (!preg_match($regexp.'A', $this->content, $vars, 0, $this->cursor)) {
             throw new \InvalidArgumentException('No match for regexp '.$regexp.' Upcoming: '.substr($this->content, $this->cursor, 30));
         }
 

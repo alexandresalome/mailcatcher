@@ -186,6 +186,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator An \ArrayIterator instance
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->headers);
@@ -196,6 +197,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      *
      * @return int The number of headers
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->headers);

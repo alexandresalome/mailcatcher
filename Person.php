@@ -24,7 +24,7 @@ class Person
      */
     public function match($text)
     {
-        return false !== strpos($this->name, $text) || false !== strpos($this->email, $text);
+        return false !== strpos((string) $this->name, $text) || false !== strpos((string) $this->email, $text);
     }
 
     /**
