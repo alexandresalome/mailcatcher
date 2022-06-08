@@ -150,15 +150,17 @@ $message = $client->searchOne(array('subject' => 'Welcome'));
 ```php
 // Message API, get the content of a message
 $subject = $message->getSubject();
-$plainTextBody = $message->getPart('text/plain')->getContent();
-$htmlBody = $message->getPart('text/html')->getContent();
+$plainTextBody = $message->getPlainFormat(); // Mailcatcher is parsing; OR
+$plainTextBody = $message->getPart('text/plain')->getContent(); // this library parses
+$htmlBody = $message->getHtmlFormat(); // Mailcatcher is parsing; OR
+$htmlBody = $message->getPart('text/html')->getContent(); // this library parses
 
 // Message API, return a Person object or an array of Person object
-$person  = $message->getFrom();
+$person  = $message->getSender();
 $persons = $message->getRecipients();
 
 // Person API
-$person = $message->getFrom();
+$person = $message->getSender();
 
 $name = $person->getName(); // null means not provided
 $mail = $person->getMail();
