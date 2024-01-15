@@ -4,7 +4,7 @@ namespace Alex\MailCatcher\Mime;
 
 class Parser
 {
-    const TOKEN_HEADER_NAME = '[A-Z][-A-Za-z0-9]*';
+    const TOKEN_HEADER_NAME = '[A-Za-z][-A-Za-z0-9]*';
 
     private $content;
     private $cursor;
