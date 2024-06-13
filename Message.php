@@ -70,6 +70,16 @@ class Message extends BaseMessage
     protected $formats;
 
     /**
+     * @var string
+     */
+    protected $plain;
+
+    /**
+     * @var string
+     */
+    protected $html;
+
+    /**
      * Constructor
      *
      * @param Client $client
@@ -362,6 +372,39 @@ class Message extends BaseMessage
     private function hydrate()
     {
         $this->loadFromArray($this->client->request('GET', $this->id.'.json'));
+    }
+
+    private function requestFormat($format)
+    {
+        if (!in_array($format, $this->getFormats())) {
+            throw new \InvalidArgumentException(sprintf("Format \"%s\" not available for message %d.", $format, $this->getId()));
+        }
+
+        return $this->client->request('GET', $this->id . ".$format", [], false);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainFormat()
+    {
+        if (null === $this->plain) {
+            $this->plain = $this->requestFormat('plain');
+        }
+
+        return $this->plain;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHtmlFormat()
+    {
+        if (null === $this->html) {
+            $this->html = $this->requestFormat('html');
+        }
+
+        return $this->html;
     }
 
     /**
