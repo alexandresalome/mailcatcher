@@ -69,37 +69,57 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
-     * @When /^I open mail from "([^"]+)"$/
+     * @When I open mail with subject :subject from :from to :to
      */
-    public function openMailFrom($value)
+    public function openMailSubjectFromTo($subject, $from, $to)
     {
-        $message = $this->findMail(Message::FROM_CRITERIA, $value);
+        $criterias = [
+          'from' => $from,
+          'subject' => $subject,
+          'to' => $to
+        ];
+
+        $message = $this->getMailCatcherClient()->searchOne($criterias);
+
+        if (!$message) {
+          throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
+        }
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @When /^I open mail with subject "([^"]+)"$/
+     * @When I open mail from :from
      */
-    public function openMailSubject($value)
+    public function openMailFrom($from)
     {
-        $message = $this->findMail(Message::SUBJECT_CRITERIA, $value);
+        $message = $this->findMail(Message::FROM_CRITERIA, $from);
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @When /^I open mail to "([^"]+)"$/
+     * @When I open mail with subject :subject
      */
-    public function openMailTo($value)
+    public function openMailSubject($subject)
     {
-        $message = $this->findMail(Message::TO_CRITERIA, $value);
+        $message = $this->findMail(Message::SUBJECT_CRITERIA, $subject);
 
         $this->currentMessage = $message;
     }
 
     /**
-     * @When /^I open mail containing "([^"]+)"$/
+     * @When I open mail to :to
+     */
+    public function openMailTo($to)
+    {
+        $message = $this->findMail(Message::TO_CRITERIA, $to);
+
+        $this->currentMessage = $message;
+    }
+
+    /**
+     * @When I open mail containing :value
      */
     public function openMailContaining($value)
     {
@@ -109,11 +129,19 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
-     * @Then /^I should see mail from "([^"]+)"$/
+     * @Then I should see mail from :from
      */
-    public function seeMailFrom($value)
+    public function seeMailFrom($from)
     {
-        $message = $this->findMail(Message::FROM_CRITERIA, $value);
+        $message = $this->findMail(Message::FROM_CRITERIA, $from);
+    }
+
+    /**
+     * @Then I should not see mail from :from
+     */
+    public function notSeeMailFrom($from)
+    {
+        $message = $this->findMail(Message::FROM_CRITERIA, $from, true);
     }
 
     /**
@@ -125,11 +153,27 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
+     * @Then /^I should not see mail with subject "([^"]+)"$/
+     */
+    public function notSeeMailSubject($value)
+    {
+        $message = $this->findMail(Message::SUBJECT_CRITERIA, $value, true);
+    }
+
+    /**
      * @Then /^I should see mail to "([^"]+)"$/
      */
     public function seeMailTo($value)
     {
         $message = $this->findMail(Message::TO_CRITERIA, $value);
+    }
+
+    /**
+     * @Then /^I should not see mail to "([^"]+)"$/
+     */
+    public function notSeeMailTo($value)
+    {
+        $message = $this->findMail(Message::TO_CRITERIA, $value, true);
     }
 
     /**
@@ -140,9 +184,17 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
         $message = $this->findMail(Message::CONTAINS_CRITERIA, $value);
     }
 
+    /**
+     * @Then /^I should not see mail containing "([^"]+)"$/
+     */
+    public function notSeeMailContaining($value)
+    {
+        $message = $this->findMail(Message::CONTAINS_CRITERIA, $value, true);
+    }
+
 
     /**
-     * @Then /^I should see "([^"]+)" in mail$/
+     * @Then I should see :text in mail
      */
     public function seeInMail($text)
     {
@@ -164,7 +216,8 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
     }
 
     /**
-     * @Then /^(?P<count>\d+) mails? should be sent$/
+     * @Then :count mails should be sent
+     * @Then :count mail should be sent
      */
     public function verifyMailsSent($count)
     {
@@ -247,14 +300,21 @@ class MailCatcherContext implements Context, TranslatableContext, MailCatcherAwa
      *
      * @return Message
      */
-    protected function findMail($type, $value)
+    protected function findMail($type, $value, $negation = false)
     {
         $criterias = array($type => $value);
 
         $message = $this->getMailCatcherClient()->searchOne($criterias);
 
         if (null === $message) {
+            // If no message was found but we wanted to NOT see a message, return a fake message to make the test pass
+            if($negation) return new Message($this->mailCatcherClient);
             throw new \InvalidArgumentException(sprintf('Unable to find a message with criterias "%s".', json_encode($criterias)));
+        } else {
+            if($negation) {
+                // If a message was found but we wanted to NOT see a message, throw an exception
+                throw new \InvalidArgumentException(sprintf('A message corresponding to your criterias was found : "%s".', json_encode($criterias)));
+            }
         }
 
         return $message;
